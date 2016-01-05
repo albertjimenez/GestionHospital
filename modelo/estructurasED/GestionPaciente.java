@@ -12,9 +12,8 @@ import vista.Vista;
 
 public class GestionPaciente implements Serializable, Modelo {
 
-	// TODO FALTA SERIALIZAR LOS PACIENTES E INGRESOS, A VER COMO VA
 
-	// Un mapa y arreando
+
 	private Map<Integer, Paciente> mapaPacientes;
 	private TreeSet<Paciente> conjuntoIngresados;
 	private transient Vista v;

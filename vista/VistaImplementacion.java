@@ -746,12 +746,9 @@ public class VistaImplementacion implements Vista, Serializable {
 		panel.add(desplegable);
 		JButton botonIngreso = new JButton("Añadir Ingreso");
 		botonIngreso.setIcon(new ImageIcon(getClass().getResource("/media/32/ingreso.png")));
-
 		JTextArea areaTexto = new JTextArea(5, 45);
-
 		panel.add(botonIngreso);
 		panel.add(areaTexto);
-		// panel.add(panel2);
 
 		botonIngreso.addActionListener(new ActionListener() {
 

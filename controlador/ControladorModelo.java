@@ -2,7 +2,7 @@ package controlador;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.TreeSet;
+import java.util.Set;
 
 import modelo.estructurasED.GestionPaciente;
 import modelo.paciente.Paciente;
@@ -31,7 +31,7 @@ public interface ControladorModelo {
 
 	public void eliminarElemConjunto(Paciente p);
 
-	public TreeSet<Paciente> devolverPacientes();
+	public Set<Paciente> devolverPacientes();
 
 	/**
 	 * Numero de pacientes actuales en la base de datos (Mapa)

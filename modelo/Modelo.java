@@ -1,7 +1,7 @@
 package modelo;
 
 import java.util.Collection;
-import java.util.TreeSet;
+import java.util.Set;
 
 import modelo.paciente.Paciente;
 
@@ -27,7 +27,7 @@ public interface Modelo {
 	 * 
 	 * @return Conjunto actual de pacientes ingresados
 	 */
-	public abstract TreeSet<Paciente> devolverPacientes();
+	public abstract Set<Paciente> devolverPacientes();
 
 	/**
 	 * Añade el paciente a la estructura de datos Mapa

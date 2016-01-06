@@ -2,7 +2,8 @@ package modelo.estructurasED;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import modelo.Modelo;
@@ -12,11 +13,11 @@ import modelo.paciente.Paciente;
 public class GestionPaciente implements Serializable, Modelo {
 
 	private ConcurrentHashMap<Integer, Paciente> mapaPacientes;
-	private TreeSet<Paciente> conjuntoIngresados;
+	private HashSet<Paciente> conjuntoIngresados;
 
 	public GestionPaciente() {
 		mapaPacientes = new ConcurrentHashMap<Integer, Paciente>();
-		conjuntoIngresados = new TreeSet<Paciente>();
+		conjuntoIngresados = new HashSet<Paciente>();
 	}
 
 	@Override
@@ -30,6 +31,7 @@ public class GestionPaciente implements Serializable, Modelo {
 
 	@Override
 	public void eliminarElemConjunto(Paciente p) {
+
 		conjuntoIngresados.remove(p);
 
 	}
@@ -107,7 +109,7 @@ public class GestionPaciente implements Serializable, Modelo {
 	}
 
 	@Override
-	public TreeSet<Paciente> devolverPacientes() {
+	public Set<Paciente> devolverPacientes() {
 
 		return conjuntoIngresados;
 	}

@@ -1021,6 +1021,7 @@ public class VistaImplementacion implements Vista, Serializable {
 	}
 
 	public JFrame vListaIngresados() {
+		System.out.println("numero de ingresados :" + controladorModelo.numeroIngresados());
 		JFrame ventana = new JFrame("Lista de Ingresados");
 		JSplitPane panelDividido = new JSplitPane();
 		JList<Paciente> list = new JList<>();
@@ -1037,9 +1038,6 @@ public class VistaImplementacion implements Vista, Serializable {
 
 		// BOTON eliminar o dar de alta
 		JButton darAlta = new JButton("Eliminar ingresados", new ImageIcon(getClass().getResource("/media/32/ok.png")));
-
-		// TODO ERROR GRAVE
-		// TODO CORREGIR EL PORQUE NO SE INGRESAN
 
 		if (!controladorModelo.esConjuntoVacio())
 			for (Paciente elemento : controladorModelo.devolverPacientes())

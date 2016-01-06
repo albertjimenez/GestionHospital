@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
-import java.util.TreeSet;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
@@ -82,7 +82,7 @@ public class ControladorImplementacionModelo implements ControladorModelo {
 	}
 
 	@Override
-	public TreeSet<Paciente> devolverPacientes() {
+	public Set<Paciente> devolverPacientes() {
 		return modelo.devolverPacientes();
 	}
 

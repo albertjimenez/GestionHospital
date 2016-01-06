@@ -1,12 +1,15 @@
 package controlador;
 
-import modelo.Modelo;
+import java.util.Collection;
+
+import modelo.estructurasED.GestionPaciente;
 import modelo.paciente.Paciente;
 
-public interface Controlador {
+public interface ControladorModelo {
 	// public void setVista(Vista v);
+	public boolean esVacio();
 
-	public void setModelo(Modelo m);
+	public void setModelo(GestionPaciente m);
 
 	public boolean insertPaciente(Paciente unPaciente);
 
@@ -17,4 +20,6 @@ public interface Controlador {
 	public Paciente recuperarPaciente(int SIP);
 
 	public boolean insertIngreso(int SIP, String ingreso, String tipo);
+
+	public Collection<Paciente> todosPacientes();
 }

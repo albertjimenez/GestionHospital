@@ -1,25 +1,22 @@
 package modelo.estructurasED;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import modelo.Modelo;
 import modelo.paciente.Ingreso;
 import modelo.paciente.Paciente;
-import vista.Vista;
 
 public class GestionPaciente implements Serializable, Modelo {
 
-
-
-	private Map<Integer, Paciente> mapaPacientes;
+	private ConcurrentHashMap<Integer, Paciente> mapaPacientes;
 	private TreeSet<Paciente> conjuntoIngresados;
-	private transient Vista v;
 
 	public GestionPaciente() {
-		mapaPacientes = new HashMap<Integer, Paciente>();
+		mapaPacientes = new ConcurrentHashMap<Integer, Paciente>();
 		conjuntoIngresados = new TreeSet<Paciente>();
 	}
 
@@ -32,25 +29,16 @@ public class GestionPaciente implements Serializable, Modelo {
 	public boolean addPaciente(Paciente unPaciente) {
 
 		int clave = unPaciente.getSIP();
+		Paciente p = mapaPacientes.putIfAbsent(clave, unPaciente);
+		return p == null;
 
-		if (mapaPacientes.containsKey(clave))
-			return false;
-		else {
-			mapaPacientes.put(clave, unPaciente);
-
-			return true;
-		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see modelo.estructurasED.Modelo#removePaciente(modelo.paciente.Paciente)
-	 */
 	@Override
 	public boolean removePaciente(Paciente unPaciente) {
 
 		int clave = unPaciente.getSIP();
+
 		if (!mapaPacientes.containsKey(clave))
 			return false;
 		mapaPacientes.remove(clave);
@@ -58,16 +46,12 @@ public class GestionPaciente implements Serializable, Modelo {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see modelo.estructurasED.Modelo#editPaciente(modelo.paciente.Paciente)
-	 */
 	@Override
 	public boolean editPaciente(Paciente unPaciente) {
 		int clave = unPaciente.getSIP();
 		Paciente viejoPaciente = mapaPacientes.get(clave);
-
+		if (!mapaPacientes.containsKey(clave))
+			return false;
 		return mapaPacientes.replace(clave, viejoPaciente, unPaciente);
 
 	}
@@ -81,9 +65,10 @@ public class GestionPaciente implements Serializable, Modelo {
 	@Override
 	public boolean addIngreso(int SIP, String Ingreso, String tipo) {
 		Ingreso e = new Ingreso(Ingreso, tipo);
-		if (mapaPacientes.containsKey(SIP)) {
-			mapaPacientes.get(SIP).getIngresos().add(e);
-			conjuntoIngresados.add(mapaPacientes.get(SIP));
+		Paciente p = mapaPacientes.get(SIP);
+		if (p != null) {
+			p.getIngresos().add(e);
+			conjuntoIngresados.add(p);
 			return true;
 		}
 		return false;
@@ -92,10 +77,10 @@ public class GestionPaciente implements Serializable, Modelo {
 
 	@Override
 	public boolean altaIngreso(int SIP) {
-		if (mapaPacientes.containsKey(SIP)) {
-			conjuntoIngresados.remove(mapaPacientes.get(SIP));
-			return true;
-		}
+		Paciente p = mapaPacientes.get(SIP);
+		if (p != null)
+			return conjuntoIngresados.remove(p);
+
 		return false;
 	}
 
@@ -104,8 +89,13 @@ public class GestionPaciente implements Serializable, Modelo {
 	}
 
 	@Override
-	public void setVista(Vista v) {
-
-		this.v = v;
+	public boolean esVacio() {
+		return mapaPacientes.isEmpty();
 	}
+
+	@Override
+	public Collection<Paciente> todosPacientes() {
+		return mapaPacientes.values();
+	}
+
 }

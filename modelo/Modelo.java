@@ -1,14 +1,23 @@
 package modelo;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeSet;
 
 import modelo.paciente.Paciente;
-import vista.Vista;
 
 public interface Modelo {
-
 	public abstract Map<Integer, Paciente> getMapaPacientes();
+
+	public abstract boolean esVacio();
+
+	/**
+	 * Añade el paciente a la estructura de datos
+	 * 
+	 * @param Paciente
+	 *            que hay que añadir
+	 * @return si ha sido añadido V sino F
+	 */
 
 	public abstract boolean addPaciente(Paciente unPaciente);
 
@@ -24,6 +33,6 @@ public interface Modelo {
 
 	public abstract TreeSet<Paciente> getConjuntoIngresados();
 
-	public abstract void setVista(Vista v);
+	public abstract Collection<Paciente> todosPacientes();
 
 }

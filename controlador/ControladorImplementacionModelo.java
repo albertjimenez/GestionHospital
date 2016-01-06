@@ -1,29 +1,17 @@
 package controlador;
 
-import modelo.Modelo;
+import java.util.Collection;
+
 import modelo.estructurasED.GestionPaciente;
 import modelo.paciente.Paciente;
 
-public class ControladorImplementacion implements Controlador {
+public class ControladorImplementacionModelo implements ControladorModelo {
 
 	// Atributos que son vista y modelo
-	Modelo modelo;
-
-	// Vista vista;
-
-	public ControladorImplementacion() {
-		super();
-		modelo = new GestionPaciente();
-
-	}
-
-	// @Override
-	// public void setVista(Vista v) {
-	// this.vista = v;
-	// }
+	GestionPaciente modelo;
 
 	@Override
-	public void setModelo(Modelo m) {
+	public void setModelo(GestionPaciente m) {
 		this.modelo = m;
 
 	}
@@ -52,6 +40,16 @@ public class ControladorImplementacion implements Controlador {
 	public boolean insertIngreso(int SIP, String ingreso, String tipo) {
 		return modelo.addIngreso(SIP, ingreso, tipo);
 
+	}
+
+	@Override
+	public boolean esVacio() {
+		return modelo.esVacio();
+	}
+
+	@Override
+	public Collection<Paciente> todosPacientes() {
+		return modelo.todosPacientes();
 	}
 
 }

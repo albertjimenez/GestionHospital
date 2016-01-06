@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import javax.swing.JFrame;
 
+import controlador.ControladorImplementacionModelo;
 import modelo.estructurasED.GestionPaciente;
 
 public interface Vista {
@@ -51,7 +52,7 @@ public interface Vista {
 	// public List<Ingreso> getListaIngreso();
 	public String getTextoIngreso();
 
-	// public void setControlador(Controlador c);
+	public void setControlador(ControladorImplementacionModelo c);
 
 	public void setModelo(GestionPaciente m);
 }

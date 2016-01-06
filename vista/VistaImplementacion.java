@@ -38,6 +38,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import controlador.ControladorImplementacionModelo;
+import de.wannawork.jcalendar.JCalendarComboBox;
 import jxl.Workbook;
 import jxl.write.Boolean;
 import jxl.write.DateTime;
@@ -50,36 +52,46 @@ import jxl.write.biff.RowsExceededException;
 import modelo.estructurasED.GestionPaciente;
 import modelo.paciente.Ingreso;
 import modelo.paciente.Paciente;
-import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class VistaImplementacion implements Vista, Serializable {
 	// Atributos
 	int contador = 1;
 
 	private GestionPaciente modeloGestor;
-	// private Controlador controlador;
+	private ControladorImplementacionModelo controladorModelo;
 
 	// Textfields
-	JFileChooser file = new JFileChooser();
-	JTextField cajaNombre = new JTextField(8);
-	JTextField cajaApellidos = new JTextField(8);
-	JTextField cajaSip = new JTextField(8);
-	JCalendarComboBox fechaN = new JCalendarComboBox();
-	JComboBox<String> desplegableGenero = new JComboBox<String>();
-	JComboBox<String> desplegableEstado = new JComboBox<String>();
-	JTextField cajaPoblacion = new JTextField(10);
-	JTextField cajaProvincia = new JTextField(10);
-	JTextField cajaCP = new JTextField(7);
-	JTextField cajaDoctor = new JTextField(8);
-	JTextField textoIngreso = new JTextField(10);
-	JComboBox<String> desplegableTipoIngreso = new JComboBox<String>();
-	JLabel informacion = new JLabel("En la base de datos hay "
-			+ "0 pacientes y " + "0 ingresados.");
+	private JFileChooser file;
+	private JTextField cajaNombre;
+	private JTextField cajaApellidos;
+	private JTextField cajaSip;
+	private JCalendarComboBox fechaN;
+	private JComboBox<String> desplegableGenero;
+	private JComboBox<String> desplegableEstado;
+	private JTextField cajaPoblacion;
+	private JTextField cajaProvincia;
+	private JTextField cajaCP;
+	private JTextField cajaDoctor;
+	private JTextField textoIngreso;
+	private JComboBox<String> desplegableTipoIngreso;
+	private JLabel informacion;
 
 	public VistaImplementacion() {
-		super();
-		modeloGestor = new GestionPaciente();
-		// controlador = new ControladorImplementacion();
+
+		file = new JFileChooser();
+		cajaNombre = new JTextField(8);
+		cajaApellidos = new JTextField(8);
+		cajaSip = new JTextField(8);
+		fechaN = new JCalendarComboBox();
+		desplegableGenero = new JComboBox<String>();
+		desplegableEstado = new JComboBox<String>();
+		cajaPoblacion = new JTextField(10);
+		cajaProvincia = new JTextField(10);
+		cajaCP = new JTextField(7);
+		cajaDoctor = new JTextField(8);
+		textoIngreso = new JTextField(10);
+		desplegableTipoIngreso = new JComboBox<String>();
+		informacion = new JLabel("En la base de datos hay " + "0 pacientes y " + "0 ingresados.");
 	}
 
 	@Override
@@ -89,13 +101,11 @@ public class VistaImplementacion implements Vista, Serializable {
 		JPanel panel = new JPanel();
 		// Boton NUEVO PACIENTE
 		JButton nuevoPaciente = new JButton("Añadir Paciente");
-		nuevoPaciente.setIcon(new ImageIcon(getClass().getResource(
-				"/media/64/newP.png")));
+		nuevoPaciente.setIcon(new ImageIcon(getClass().getResource("/media/64/newP.png")));
 
 		// BOTON CONSULTAR PACIENTE
 		JButton consultarPaciente = new JButton("Consultar Paciente");
-		consultarPaciente.setIcon(new ImageIcon(getClass().getResource(
-				"/media/64/consultar.png")));
+		consultarPaciente.setIcon(new ImageIcon(getClass().getResource("/media/64/consultar.png")));
 
 		// BOTON Editar Paciente
 
@@ -106,37 +116,32 @@ public class VistaImplementacion implements Vista, Serializable {
 		// BOTON NUEVO Ingreso
 
 		JButton nuevoIngreso = new JButton("Añadir Ingreso");
-		nuevoIngreso.setIcon(new ImageIcon(getClass().getResource(
-				"/media/64/doctor.png")));
+		nuevoIngreso.setIcon(new ImageIcon(getClass().getResource("/media/64/doctor.png")));
 
 		// BOTON MOSTRAR Ingresos
 
 		JButton mostrarListaIngresados = new JButton("Mostrar Ingresados");
-		mostrarListaIngresados.setIcon(new ImageIcon(getClass().getResource(
-				"/media/64/ingresados.png")));
+		mostrarListaIngresados.setIcon(new ImageIcon(getClass().getResource("/media/64/ingresados.png")));
 
 		// BOTON MOSTRAR TODOS
 
-		JButton mostrarTodos = new JButton("Mostrar pacientes", new ImageIcon(
-				getClass().getResource("/media/64/todos.png")));
+		JButton mostrarTodos = new JButton("Mostrar pacientes",
+				new ImageIcon(getClass().getResource("/media/64/todos.png")));
 
 		// BOTON Guardar
 
 		JButton guardar = new JButton("Guardar");
-		guardar.setIcon(new ImageIcon(getClass().getResource(
-				"/media/64/save.png")));
+		guardar.setIcon(new ImageIcon(getClass().getResource("/media/64/save.png")));
 
 		// Boton Cargar
 
 		JButton cargar = new JButton("Cargar");
-		cargar.setIcon(new ImageIcon(getClass().getResource(
-				"/media/64/cargar.png")));
+		cargar.setIcon(new ImageIcon(getClass().getResource("/media/64/cargar.png")));
 
 		// boton Exportar
 
 		JButton exportar = new JButton("Exportar");
-		exportar.setIcon(new ImageIcon(getClass().getResource(
-				"/media/64/excel.png")));
+		exportar.setIcon(new ImageIcon(getClass().getResource("/media/64/excel.png")));
 		JPanel superpanel = new JPanel();
 		superpanel.setLayout(new BoxLayout(superpanel, BoxLayout.Y_AXIS));
 		JPanel panel2 = new JPanel();
@@ -150,12 +155,12 @@ public class VistaImplementacion implements Vista, Serializable {
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("licencia");
 				JTextPane licencia = new JTextPane();
-				licencia.setText("En la presente licencia de ‘Gestión Hospitalaria’ desarrollada íntegramente por Albert Antoni Jiménez Fuentes,\n se permite el uso a Pablo Serra Bel y superiores,\n siempre que se respete el uso como tal del software a fines personales.\nCualquier modificación, redistribución y/o venta del mismo suponen una anulación de los fines destinados con consecuencias legales.");
+				licencia.setText(
+						"En la presente licencia de ‘Gestión Hospitalaria’ desarrollada íntegramente por Albert Antoni Jiménez Fuentes,\n se permite el uso a Pablo Serra Bel y superiores,\n siempre que se respete el uso como tal del software a fines personales.\nCualquier modificación, redistribución y/o venta del mismo suponen una anulación de los fines destinados con consecuencias legales.");
 				licencia.setEditable(false);
 				JPanel jPanel = new JPanel();
 				JButton ima = new JButton();
-				ima.setIcon(new ImageIcon(getClass().getResource(
-						"/media/32/yo.png")));
+				ima.setIcon(new ImageIcon(getClass().getResource("/media/32/yo.png")));
 				jPanel.add(ima);
 				jPanel.add(licencia);
 				frame.getContentPane().add(jPanel);
@@ -230,7 +235,6 @@ public class VistaImplementacion implements Vista, Serializable {
 
 			}
 		});
-		// TODO ACCION BOTON MOSTRAR TODOS
 
 		mostrarTodos.addActionListener(new ActionListener() {
 
@@ -247,22 +251,19 @@ public class VistaImplementacion implements Vista, Serializable {
 			public void actionPerformed(ActionEvent e) {
 				// file.setAcceptAllFileFilterUsed(false);
 
-				file.setFileFilter(new FileNameExtensionFilter(
-						"Archivo Binario", "bin"));
+				file.setFileFilter(new FileNameExtensionFilter("Archivo Binario", "bin"));
 				file.setDialogTitle("Guardar archivo");
 				file.setName(file.getName() + ".bin");
 				file.setAcceptAllFileFilterUsed(false);
 
 				if (file.showSaveDialog(null) == JFileChooser.CANCEL_OPTION)
-					JOptionPane.showMessageDialog(null,
-							"No se ha guardado ningún archivo");
+					JOptionPane.showMessageDialog(null, "No se ha guardado ningún archivo");
 				else {
 					File guarda = file.getSelectedFile();
 					File g = new File(guarda.getAbsolutePath() + ".bin");
 
 					guardar(g);
-					JOptionPane.showMessageDialog(null,
-							"Datos guardados con éxito");
+					JOptionPane.showMessageDialog(null, "Datos guardados con éxito");
 				}
 			}
 		});
@@ -273,19 +274,16 @@ public class VistaImplementacion implements Vista, Serializable {
 			public void actionPerformed(ActionEvent e) {
 				file.setDialogTitle("Cargar archivo");
 
-				file.setFileFilter(new FileNameExtensionFilter(
-						"Archivo Binario", "bin"));
+				file.setFileFilter(new FileNameExtensionFilter("Archivo Binario", "bin"));
 				file.setMultiSelectionEnabled(false);
 
 				file.setAcceptAllFileFilterUsed(false);
 				if (file.showOpenDialog(null) == JFileChooser.CANCEL_OPTION)
-					JOptionPane.showMessageDialog(null,
-							"No se ha cargado ningún archivo");
+					JOptionPane.showMessageDialog(null, "No se ha cargado ningún archivo");
 				else {
 					File carga = file.getSelectedFile();
 					cargar(carga);
-					JOptionPane.showMessageDialog(null,
-							"Datos cargados con éxito");
+					JOptionPane.showMessageDialog(null, "Datos cargados con éxito");
 				}
 
 			}
@@ -304,12 +302,10 @@ public class VistaImplementacion implements Vista, Serializable {
 						try {
 							// String ruta = "/Users/Beruto/Desktop/prueba.xls";
 							File archivo = file.getSelectedFile();
-							File a = new File(archivo.getAbsolutePath()
-									+ ".xls");
+							File a = new File(archivo.getAbsolutePath() + ".xls");
 
 							WritableWorkbook libro = Workbook.createWorkbook(a);
-							WritableSheet hoja = libro.createSheet(
-									"Gestión hospitalaria", 0);
+							WritableSheet hoja = libro.createSheet("Gestión hospitalaria", 0);
 
 							cabeceras(hoja);
 							escribirNombre(hoja);
@@ -329,8 +325,7 @@ public class VistaImplementacion implements Vista, Serializable {
 							libro.write();
 							libro.close();
 
-							JOptionPane.showMessageDialog(null,
-									"Fichero exportado correctamente");
+							JOptionPane.showMessageDialog(null, "Fichero exportado correctamente");
 
 						} catch (IOException e1) {
 
@@ -341,8 +336,7 @@ public class VistaImplementacion implements Vista, Serializable {
 						}
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"No hay datos almacenados");
+					JOptionPane.showMessageDialog(null, "No hay datos almacenados");
 			}
 		});
 
@@ -353,13 +347,10 @@ public class VistaImplementacion implements Vista, Serializable {
 	}
 
 	private void cabeceras(WritableSheet unaHoja) {
-		String[] vectorCabeceras = { "Nombre", "Apellidos", "SIP",
-				"Fecha de Nacimiento", "Sexo", "Estado", "Población",
-				"Província", "C.P.", "Doctor", "¿Ingresado ahora?",
-				"Nº ingresos" };
+		String[] vectorCabeceras = { "Nombre", "Apellidos", "SIP", "Fecha de Nacimiento", "Sexo", "Estado", "Población",
+				"Província", "C.P.", "Doctor", "¿Ingresado ahora?", "Nº ingresos" };
 		for (int i = 0; i < vectorCabeceras.length; i++) {
-			jxl.write.Label label = new jxl.write.Label(i, 0,
-					vectorCabeceras[i]);
+			jxl.write.Label label = new jxl.write.Label(i, 0, vectorCabeceras[i]);
 			try {
 				unaHoja.addCell(label);
 			} catch (RowsExceededException e) {
@@ -440,8 +431,7 @@ public class VistaImplementacion implements Vista, Serializable {
 		int f = 1;
 		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
 			// LABELS y FIELDS
-			DateTime fecha = new DateTime(3, f, p.getFechaNacimiento()
-					.getTime());
+			DateTime fecha = new DateTime(3, f, p.getFechaNacimiento().getTime());
 
 			// ADD CELL
 			try {
@@ -667,13 +657,11 @@ public class VistaImplementacion implements Vista, Serializable {
 		panel2.add(new JLabel("Doctor: "));
 		panel2.add(cajaDoctor);
 		JButton addPaciente = new JButton("Añadir paciente");
-		addPaciente.setIcon(new ImageIcon(getClass().getResource(
-				"/media/32/Add.png")));
+		addPaciente.setIcon(new ImageIcon(getClass().getResource("/media/32/Add.png")));
 
 		// ACCIÓN
 		addPaciente.addActionListener(new ActionListener() {
-			// TODO arreglar lo de historia, convertir lo que hago a static y
-			// poner atributo que sí sea consultable
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// textoIngreso.setText(getTextoIngreso());
@@ -687,29 +675,24 @@ public class VistaImplementacion implements Vista, Serializable {
 				String provincia = cajaProvincia.getText();
 				int cp = getCP();
 				String doctor = cajaDoctor.getText();
-				// String ingreso = areaTexto.getText();
-				// String tipoIngreso = (String) desplegableTipoIngreso
-				// .getSelectedItem();
-				Paciente p = new Paciente(nombre, apellido, sip, fecha, sexo,
-						estado, poblacion, provincia, cp, doctor);
+				Paciente p = new Paciente(nombre, apellido, sip, fecha, sexo, estado, poblacion, provincia, cp, doctor);
 
-				if (nombre.equals("") || apellido.equals("")
-						|| poblacion.equals("") || provincia.equals("")
+				if (nombre.equals("") || apellido.equals("") || poblacion.equals("") || provincia.equals("")
 						|| doctor.equals("")) {
 					JOptionPane.showMessageDialog(null, "Error campos vacíos");
 					miVentana.dispose();
+
 				} else {
-					// System.out.println(mapaPacientes.values().toString());
-					if (modeloGestor.getMapaPacientes().containsKey(p.getSIP()))
+					// TODO voy a cambiar esto a ver si no peta
+					if (controladorModelo.recuperarPaciente(sip) != null)
 						mostrarErrorPacienteRepe();
 					else if (p.getSIP() != 0 || p.getCP() != 0) {
-						modeloGestor.addPaciente(p);
-						JOptionPane.showMessageDialog(null, "Cliente con SIP "
-								+ sip + " agregado correctamente");
+						controladorModelo.insertPaciente(p);
+						JOptionPane.showMessageDialog(null, "Cliente con SIP " + sip + " agregado correctamente");
 						actualizarInformacion();
 						// crear paciente y aumentar contador
 						contador++;
-						Paciente.numHistoria++;
+
 					}
 					// System.out.println(modeloGestor.getMapaPacientes().size());
 					cleaner();
@@ -748,8 +731,7 @@ public class VistaImplementacion implements Vista, Serializable {
 		desplegable.addItem("Oncológico");
 		panel.add(desplegable);
 		JButton botonIngreso = new JButton("Añadir Ingreso");
-		botonIngreso.setIcon(new ImageIcon(getClass().getResource(
-				"/media/32/ingreso.png")));
+		botonIngreso.setIcon(new ImageIcon(getClass().getResource("/media/32/ingreso.png")));
 
 		JTextArea areaTexto = new JTextArea(5, 45);
 
@@ -761,13 +743,11 @@ public class VistaImplementacion implements Vista, Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Ingreso nuevoIngreso = new Ingreso(areaTexto.getText(),
-						(String) desplegable.getSelectedItem());
+				Ingreso nuevoIngreso = new Ingreso(areaTexto.getText(), (String) desplegable.getSelectedItem());
 				int sip = -1;
 				try {
 					sip = Integer.parseInt(cajaSip.getText());
-					if (modeloGestor.addIngreso(sip, areaTexto.getText(),
-							nuevoIngreso.getTipo())) {
+					if (modeloGestor.addIngreso(sip, areaTexto.getText(), nuevoIngreso.getTipo())) {
 						JOptionPane.showMessageDialog(null, "Ingreso añadido");
 						actualizarInformacion();
 						miVentana.setVisible(false);
@@ -798,8 +778,7 @@ public class VistaImplementacion implements Vista, Serializable {
 		// JTextPane textIngreso = new JTextPane();
 		panel.add(new JLabel("Inserta el SIP "));
 		JTextField cajaBuscarPaciente = new JTextField(8);
-		JButton botonBusqueda = new JButton("Buscar", new ImageIcon(getClass()
-				.getResource("/media/32/buscar.png")));
+		JButton botonBusqueda = new JButton("Buscar", new ImageIcon(getClass().getResource("/media/32/buscar.png")));
 
 		// cajaBuscarPaciente.setPreferredSize(new Dimension(500, 500));
 		// ACCION
@@ -811,8 +790,7 @@ public class VistaImplementacion implements Vista, Serializable {
 				try {
 					valor = Integer.parseInt(cajaBuscarPaciente.getText());
 					if (modeloGestor.searchPaciente(valor) == null)
-						JOptionPane.showMessageDialog(null,
-								"No existe el paciente solicitado");
+						JOptionPane.showMessageDialog(null, "No existe el paciente solicitado");
 					else {
 						// Jtextpane de paciente y jtextpane de ingresos
 
@@ -831,15 +809,12 @@ public class VistaImplementacion implements Vista, Serializable {
 
 						JFrame miVentana = new JFrame("Añadir Pacientes");
 						JPanel superPanel = new JPanel();
-						superPanel.setLayout(new BoxLayout(superPanel,
-								BoxLayout.Y_AXIS));
+						superPanel.setLayout(new BoxLayout(superPanel, BoxLayout.Y_AXIS));
 						JPanel panel = new JPanel();
 						JPanel panel2 = new JPanel();
 						JPanel panel3 = new JPanel();
-						JButton botonMostrarIngreso = new JButton(
-								"Mostrar historial de ingresos");
-						botonMostrarIngreso.setIcon(new ImageIcon(getClass()
-								.getResource("/media/32/historial.png")));
+						JButton botonMostrarIngreso = new JButton("Mostrar historial de ingresos");
+						botonMostrarIngreso.setIcon(new ImageIcon(getClass().getResource("/media/32/historial.png")));
 						JTextField cajaNombre = new JTextField(8);
 						JTextField cajaApellidos = new JTextField(8);
 						JTextField cajaSip = new JTextField(8);
@@ -887,34 +862,28 @@ public class VistaImplementacion implements Vista, Serializable {
 						Paciente pa = modeloGestor.searchPaciente(valor);
 
 						// ACCION
-						botonMostrarIngreso
-								.addActionListener(new ActionListener() {
+						botonMostrarIngreso.addActionListener(new ActionListener() {
 
-									@Override
-									public void actionPerformed(ActionEvent e) {
-										JFrame miFrame = new JFrame(
-												"Mostrando historial de "
-														+ cajaNombre.getText());
-										// JPanel pan = new JPanel();
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								JFrame miFrame = new JFrame("Mostrando historial de " + cajaNombre.getText());
+								// JPanel pan = new JPanel();
 
-										JTextArea area = new JTextArea(30, 100);
-										JScrollPane scroll = new JScrollPane(
-												area,
-												JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-												JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-										area.setLineWrap(true);
-										if (pa.getIngresos().isEmpty())
-											area.setText("No hay ingresos");
-										else
-											area.setText(pa.getIngresos()
-													.toString());
-										area.setEditable(false);
+								JTextArea area = new JTextArea(30, 100);
+								JScrollPane scroll = new JScrollPane(area, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+										JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+								area.setLineWrap(true);
+								if (pa.getIngresos().isEmpty())
+									area.setText("No hay ingresos");
+								else
+									area.setText(pa.getIngresos().toString());
+								area.setEditable(false);
 
-										miFrame.add(scroll);
-										miFrame.pack();
-										miFrame.setVisible(true);
-									}
-								});
+								miFrame.add(scroll);
+								miFrame.pack();
+								miFrame.setVisible(true);
+							}
+						});
 
 						superPanel.add(panel);
 						superPanel.add(panel2);
@@ -953,8 +922,7 @@ public class VistaImplementacion implements Vista, Serializable {
 						cajaDoctor.setText(pa.getDoctor());
 						cajaDoctor.setEnabled(false);
 						cajaDoctor.setOpaque(true);
-						desplegableTipoIngreso.setSelectedItem(pa
-								.getTipoIngreso());
+						desplegableTipoIngreso.setSelectedItem(pa.getTipoIngreso());
 						desplegableTipoIngreso.setEnabled(false);
 						desplegableTipoIngreso.setOpaque(true);
 
@@ -1078,16 +1046,13 @@ public class VistaImplementacion implements Vista, Serializable {
 		areaTexto.setEditable(false);
 
 		DefaultListModel<Paciente> listModel = new DefaultListModel<>();
-		JScrollPane scrollTexto = new JScrollPane(areaTexto,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		JScrollPane scrollTexto = new JScrollPane(areaTexto, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		JScrollPane scrollLista = new JScrollPane(list,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		JScrollPane scrollLista = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		// BOTON eliminar o dar de alta
-		JButton darAlta = new JButton("Eliminar ingresados", new ImageIcon(
-				getClass().getResource("/media/32/ok.png")));
+		JButton darAlta = new JButton("Eliminar ingresados", new ImageIcon(getClass().getResource("/media/32/ok.png")));
 
 		if (!modeloGestor.getConjuntoIngresados().isEmpty())
 			for (Paciente elemento : modeloGestor.getConjuntoIngresados())
@@ -1102,8 +1067,7 @@ public class VistaImplementacion implements Vista, Serializable {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (list.getSelectedValuesList().size() > 1)
-					areaTexto
-							.setText("Selecciona un unico paciente para mostrar su información");
+					areaTexto.setText("Selecciona un unico paciente para mostrar su información");
 				else if (list.getSelectedValuesList().size() == 1)
 					areaTexto.setText(list.getSelectedValue().toString2());
 
@@ -1118,26 +1082,22 @@ public class VistaImplementacion implements Vista, Serializable {
 						"¿Desea dar de alta los pacientes seleccionados?") == JOptionPane.YES_OPTION) {
 
 					if (list.getSelectedValuesList().size() > 1) {
-						modeloGestor.getConjuntoIngresados().removeAll(
-								list.getSelectedValuesList());
+						modeloGestor.getConjuntoIngresados().removeAll(list.getSelectedValuesList());
 						areaTexto.setText("");
 						DefaultListModel<Paciente> modeloNuevo = new DefaultListModel<>();
 						if (!modeloGestor.getConjuntoIngresados().isEmpty()) {
-							for (Paciente elemento : modeloGestor
-									.getConjuntoIngresados())
+							for (Paciente elemento : modeloGestor.getConjuntoIngresados())
 								modeloNuevo.addElement(elemento);
 							list.setModel(modeloNuevo);
 						} else
 							listModel.removeAllElements();
 						actualizarInformacion();
 					} else if (list.getSelectedValuesList().size() == 1) {
-						modeloGestor.getConjuntoIngresados().remove(
-								list.getSelectedValue());
+						modeloGestor.getConjuntoIngresados().remove(list.getSelectedValue());
 						areaTexto.setText("");
 						listModel.removeElement(list.getSelectedValue());
 					} else {
-						JOptionPane.showMessageDialog(null,
-								"Error \nLa lista está vacía");
+						JOptionPane.showMessageDialog(null, "Error \nLa lista está vacía");
 					}
 					actualizarInformacion();
 				}
@@ -1159,12 +1119,8 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	public void actualizarInformacion() {
 
-		informacion
-				.setText("En la base de datos hay "
-						+ modeloGestor.getMapaPacientes().size()
-						+ " paciente/s y "
-						+ modeloGestor.getConjuntoIngresados().size()
-						+ " ingresado/s.");
+		informacion.setText("En la base de datos hay " + modeloGestor.getMapaPacientes().size() + " paciente/s y "
+				+ modeloGestor.getConjuntoIngresados().size() + " ingresado/s.");
 
 	}
 
@@ -1216,8 +1172,7 @@ public class VistaImplementacion implements Vista, Serializable {
 				objeto.close();
 			}
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null,
-					"Fichero de datos no existe. Se crea una nueva base.");
+			JOptionPane.showMessageDialog(null, "Fichero de datos no existe. Se crea una nueva base.");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -1249,13 +1204,12 @@ public class VistaImplementacion implements Vista, Serializable {
 	}
 
 	private JFrame ventanaTodos() {
-		// TODO
+
 		JFrame ventana = new JFrame("Mostrar todos los pacientes");
 		JPanel miPanel = new JPanel();
 		JPanel superPanel = new JPanel();
 		JTextField apellido = new JTextField(8);
-		JButton buscar = new JButton("Buscar", new ImageIcon(getClass()
-				.getResource("/media/32/buscar.png")));
+		JButton buscar = new JButton("Buscar", new ImageIcon(getClass().getResource("/media/32/buscar.png")));
 		JSplitPane panelDividido = new JSplitPane();
 		JList<Paciente> list = new JList<>();
 		list.setVisibleRowCount(10);
@@ -1266,11 +1220,9 @@ public class VistaImplementacion implements Vista, Serializable {
 		// MI Panel
 
 		DefaultListModel<Paciente> listModel = new DefaultListModel<>();
-		JScrollPane scrollTexto = new JScrollPane(areaTexto,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		JScrollPane scrollTexto = new JScrollPane(areaTexto, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		JScrollPane scrollLista = new JScrollPane(list,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		JScrollPane scrollLista = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		list.addListSelectionListener(new ListSelectionListener() {
@@ -1308,8 +1260,7 @@ public class VistaImplementacion implements Vista, Serializable {
 							nuevoModelo.addElement(p);
 						list.setModel(nuevoModelo);
 					} else {
-						JOptionPane.showMessageDialog(null,
-								"No existe el apellido " + apellido.getText());
+						JOptionPane.showMessageDialog(null, "No existe el apellido " + apellido.getText());
 						list.setModel(listModel);
 					}
 
@@ -1362,13 +1313,18 @@ public class VistaImplementacion implements Vista, Serializable {
 		Set<Paciente> lista = new HashSet<Paciente>();
 		if (!m.isEmpty()) {
 			for (Paciente p : m.values())
-				if (p.getApellidos().toLowerCase()
-						.equals(pattern.toLowerCase())
+				if (p.getApellidos().toLowerCase().equals(pattern.toLowerCase())
 						|| p.getApellidos().toLowerCase().startsWith(pattern))
 					lista.add(p);
 
 		}
 		return lista;
+	}
+
+	@Override
+	public void setControlador(ControladorImplementacionModelo c) {
+		this.controladorModelo = c;
+
 	}
 
 }

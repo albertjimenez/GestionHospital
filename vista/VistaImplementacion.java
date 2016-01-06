@@ -38,6 +38,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import actionListeners.VentanaBusqueda;
 import controlador.ControladorImplementacionModelo;
 import de.wannawork.jcalendar.JCalendarComboBox;
 import jxl.Workbook;
@@ -109,9 +110,8 @@ public class VistaImplementacion implements Vista, Serializable {
 
 		// BOTON Editar Paciente
 
-		// JButton editarPaciente = new JButton("Editar Paciente");
-		// editarPaciente.setIcon(new ImageIcon(getClass().getResource(
-		// "/media/64/edit.png")));
+		JButton editarPaciente = new JButton("Editar Paciente");
+		editarPaciente.setIcon(new ImageIcon(getClass().getResource("/media/64/edit.png")));
 		//
 		// BOTON NUEVO Ingreso
 
@@ -177,6 +177,7 @@ public class VistaImplementacion implements Vista, Serializable {
 		panel.add(nuevoIngreso);
 		panel.add(mostrarListaIngresados);
 		panel4Abajo.add(mostrarTodos);
+		panel4Abajo.add(editarPaciente);
 		panel4Abajo.add(guardar);
 		panel4Abajo.add(cargar);
 		panel4Abajo.add(exportar);
@@ -209,6 +210,17 @@ public class VistaImplementacion implements Vista, Serializable {
 				// vConsulta.pack();
 				vConsulta.setVisible(true);
 
+			}
+		});
+
+		// Accion editar
+
+		editarPaciente.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaBusqueda window = new VentanaBusqueda();
+				window.creaVentana("Ventana de Búsqueda");
 			}
 		});
 
@@ -792,21 +804,6 @@ public class VistaImplementacion implements Vista, Serializable {
 					if (modeloGestor.searchPaciente(valor) == null)
 						JOptionPane.showMessageDialog(null, "No existe el paciente solicitado");
 					else {
-						// Jtextpane de paciente y jtextpane de ingresos
-
-						// textIngreso.setOpaque(true);
-						// JFrame win = new JFrame();
-						// JPanel jPanel = new JPanel();
-						// textoPaciente.setText(modeloGestor
-						// .searchPaciente(valor).toStringAntiIngresos());
-						// textIngreso.setText(modeloGestor.searchPaciente(valor)
-						// .getIngresos().toString());
-						// jPanel.add(textoPaciente);
-						// jPanel.add(textIngreso);
-						// win.getContentPane().add(jPanel);
-						// win.pack();
-						// win.setVisible(true);
-
 						JFrame miVentana = new JFrame("Añadir Pacientes");
 						JPanel superPanel = new JPanel();
 						superPanel.setLayout(new BoxLayout(superPanel, BoxLayout.Y_AXIS));

@@ -1,10 +1,13 @@
 # GestionHospital
-Project for the Hospital of Vinaròs, applied lightly MVC, Model is no longer interact with the view. Data Structure prepared for multithread (Not Thread-safe yet).
+Project for the Hospital of Vinaròs, applied lightly MVC, Model is no longer interact with the view. Data Structure prepared for multithread (Not Thread-safe yet and).
 Developed with JAVA SE 8 and Swing framework.
 
-__Formed by 5 packets:
+__Formed by 6 packets:
 
--> Controller (No use yet)
+-> Controller (In use)
+
+-> ActionListeners (Classes that extends JFrame and are support for the VIEW, 
+implement a few ActionListeners and some graphical windows to input text)
 
 -> Media (save all resource media)
 

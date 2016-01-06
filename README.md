@@ -1,5 +1,5 @@
 # GestionHospital
-Project for the Hospital of Vinaròs, no MVC has been applied, just Model interacting with the view. No multithread.
+Project for the Hospital of Vinaròs, applied lightly MVC, Model is no longer interact with the view. Data Structure prepared for multithread (Not Thread-safe yet).
 Developed with JAVA SE 8 and Swing framework.
 
 __Formed by 5 packets:

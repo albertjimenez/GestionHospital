@@ -12,7 +12,7 @@ public class Principal {
 		GestionPaciente m = new GestionPaciente();
 		VistaImplementacion v = new VistaImplementacion();
 		ControladorImplementacionModelo c = new ControladorImplementacionModelo();
-		v.setModelo(m);
+		// v.setModelo(m);
 		v.setControlador(c);
 		c.setModelo(m);
 

@@ -5,16 +5,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
@@ -50,7 +44,6 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
-import modelo.estructurasED.GestionPaciente;
 import modelo.paciente.Ingreso;
 import modelo.paciente.Paciente;
 
@@ -58,7 +51,7 @@ public class VistaImplementacion implements Vista, Serializable {
 	// Atributos
 	int contador = 1;
 
-	private GestionPaciente modeloGestor;
+	// private GestionPaciente modeloGestor;
 	private ControladorImplementacionModelo controladorModelo;
 
 	// Textfields
@@ -274,7 +267,7 @@ public class VistaImplementacion implements Vista, Serializable {
 					File guarda = file.getSelectedFile();
 					File g = new File(guarda.getAbsolutePath() + ".bin");
 
-					guardar(g);
+					controladorModelo.guardar(g);
 					JOptionPane.showMessageDialog(null, "Datos guardados con éxito");
 				}
 			}
@@ -294,7 +287,8 @@ public class VistaImplementacion implements Vista, Serializable {
 					JOptionPane.showMessageDialog(null, "No se ha cargado ningún archivo");
 				else {
 					File carga = file.getSelectedFile();
-					cargar(carga);
+					controladorModelo.cargar(carga);
+					actualizarInformacion();
 					JOptionPane.showMessageDialog(null, "Datos cargados con éxito");
 				}
 
@@ -309,7 +303,7 @@ public class VistaImplementacion implements Vista, Serializable {
 			public void actionPerformed(ActionEvent e) {
 				file.setDialogTitle("Exportar a Excel");
 				// file.setDialogType(JFileChooser.SAVE_DIALOG);
-				if (!modeloGestor.getMapaPacientes().isEmpty()) {
+				if (!controladorModelo.esMapaVacio()) {
 					if (file.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 						try {
 							// String ruta = "/Users/Beruto/Desktop/prueba.xls";
@@ -378,7 +372,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirNombre(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Label nombre = new Label(0, f, p.getNombre());
 
@@ -399,7 +393,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirApellido(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Label apellido = new Label(1, f, p.getApellidos());
 
@@ -420,7 +414,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirSip(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Number sip = new Number(2, f, p.getSIP());
 
@@ -441,7 +435,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirFechaNacimiento(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			DateTime fecha = new DateTime(3, f, p.getFechaNacimiento().getTime());
 
@@ -462,7 +456,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirSexo(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Label sexo = new Label(4, f, p.getSexo());
 
@@ -483,7 +477,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirEstado(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Label estado = new Label(5, f, p.getEstado());
 
@@ -504,7 +498,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirPoblacion(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Label poblacion = new Label(6, f, p.getPoblacion());
 
@@ -525,7 +519,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirProvincia(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Label provincia = new Label(7, f, p.getProvincia());
 
@@ -546,7 +540,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirCP(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Number cp = new Number(8, f, p.getCP());
 
@@ -567,7 +561,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirDoctor(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Label doc = new Label(9, f, p.getDoctor());
 
@@ -588,7 +582,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirIsIngresado(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Boolean ingreso = new Boolean(10, f, p.getIngresos().isEmpty());
 
@@ -609,7 +603,7 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	private void escribirNumIngresos(WritableSheet unaHoja) {
 		int f = 1;
-		for (Paciente p : modeloGestor.getMapaPacientes().values()) {
+		for (Paciente p : controladorModelo.todosPacientes()) {
 			// LABELS y FIELDS
 			Number numIngresos = new Number(11, f, p.getIngresos().size());
 
@@ -633,6 +627,7 @@ public class VistaImplementacion implements Vista, Serializable {
 		// desplegables();
 		JFrame miVentana = new JFrame("Añadir Pacientes");
 		JPanel superPanel = new JPanel();
+		// cajaNombre.requestFocus();
 		fechaN.setPreferredSize(new Dimension(150, 50));
 		superPanel.setLayout(new BoxLayout(superPanel, BoxLayout.Y_AXIS));
 		desplegableGenero.addItem("Hombre");
@@ -650,6 +645,7 @@ public class VistaImplementacion implements Vista, Serializable {
 		JPanel panel3 = new JPanel();
 		panel.add(new JLabel("Nombre: "));
 		panel.add(cajaNombre);
+
 		panel.add(new JLabel("Apellidos: "));
 		panel.add(cajaApellidos);
 		panel.add(new JLabel("SIP: "));
@@ -695,7 +691,7 @@ public class VistaImplementacion implements Vista, Serializable {
 					miVentana.dispose();
 
 				} else {
-					// TODO voy a cambiar esto a ver si no peta
+
 					if (controladorModelo.recuperarPaciente(sip) != null)
 						mostrarErrorPacienteRepe();
 					else if (p.getSIP() != 0 || p.getCP() != 0) {
@@ -706,7 +702,6 @@ public class VistaImplementacion implements Vista, Serializable {
 						contador++;
 
 					}
-					// System.out.println(modeloGestor.getMapaPacientes().size());
 					cleaner();
 					miVentana.dispose();
 
@@ -716,14 +711,11 @@ public class VistaImplementacion implements Vista, Serializable {
 
 		});
 		panel3.add(addPaciente);
-		// panel2.add(textoIngreso);
 		superPanel.add(panel);
 		superPanel.add(panel2);
 		superPanel.add(panel3);
 		miVentana.getContentPane().add(superPanel);
-		// miVentana.setAlwaysOnTop(true);
 		miVentana.pack();
-		miVentana.isVisible();
 
 		return miVentana;
 	}
@@ -732,12 +724,12 @@ public class VistaImplementacion implements Vista, Serializable {
 	public JFrame ventanaIngreso() {
 		JFrame miVentana = new JFrame("Añadir ingreso");
 		JPanel panel = new JPanel();
-		// JPanel panel2 = new JPanel();
-
 		panel.add(new JLabel("SIP: "));
 		JTextField cajaSip = new JTextField(8);
 		panel.add(cajaSip);
+
 		// TODO cuidado que hay que rellenar los desplegables
+
 		JComboBox<String> desplegable = new JComboBox<String>();
 		desplegable.addItem("Paliativo");
 		desplegable.addItem("Oncológico");
@@ -759,7 +751,10 @@ public class VistaImplementacion implements Vista, Serializable {
 				int sip = -1;
 				try {
 					sip = Integer.parseInt(cajaSip.getText());
-					if (modeloGestor.addIngreso(sip, areaTexto.getText(), nuevoIngreso.getTipo())) {
+					String areaT = areaTexto.getText();
+					String tipoIngreso = nuevoIngreso.getTipo();
+
+					if (controladorModelo.insertIngreso(sip, areaT, tipoIngreso)) {
 						JOptionPane.showMessageDialog(null, "Ingreso añadido");
 						actualizarInformacion();
 						miVentana.setVisible(false);
@@ -768,7 +763,7 @@ public class VistaImplementacion implements Vista, Serializable {
 					else
 						mostrarErrorAntiPaciente();
 				} catch (NumberFormatException e2) {
-					JOptionPane.showMessageDialog(null, "No era un numero");
+					JOptionPane.showMessageDialog(null, "Se esperaba un numero");
 				}
 			}
 		});
@@ -801,7 +796,7 @@ public class VistaImplementacion implements Vista, Serializable {
 				int valor = 0;
 				try {
 					valor = Integer.parseInt(cajaBuscarPaciente.getText());
-					if (modeloGestor.searchPaciente(valor) == null)
+					if (controladorModelo.recuperarPaciente(valor) == null)
 						JOptionPane.showMessageDialog(null, "No existe el paciente solicitado");
 					else {
 						JFrame miVentana = new JFrame("Añadir Pacientes");
@@ -853,10 +848,8 @@ public class VistaImplementacion implements Vista, Serializable {
 						panel2.add(cajaCP);
 						panel2.add(new JLabel("Doctor: "));
 						panel2.add(cajaDoctor);
-						// panel3.add(new JLabel("Tipo de ingreso: "));
-						// panel3.add(desplegableTipoIngreso);
 
-						Paciente pa = modeloGestor.searchPaciente(valor);
+						Paciente pa = controladorModelo.recuperarPaciente(valor);
 
 						// ACCION
 						botonMostrarIngreso.addActionListener(new ActionListener() {
@@ -937,12 +930,6 @@ public class VistaImplementacion implements Vista, Serializable {
 
 		panel.add(cajaBuscarPaciente);
 		panel.add(botonBusqueda);
-
-		// panel.add(mostrarListaIngresados);
-		// panel.add(textoPaciente);
-		// panel.add(textIngreso);
-		// textIngreso.setEditable(false);
-		// textoPaciente.setEditable(false);
 		miVentana.getContentPane().add(panel);
 		miVentana.pack();
 		miVentana.isVisible();
@@ -1051,12 +1038,15 @@ public class VistaImplementacion implements Vista, Serializable {
 		// BOTON eliminar o dar de alta
 		JButton darAlta = new JButton("Eliminar ingresados", new ImageIcon(getClass().getResource("/media/32/ok.png")));
 
-		if (!modeloGestor.getConjuntoIngresados().isEmpty())
-			for (Paciente elemento : modeloGestor.getConjuntoIngresados())
+		// TODO ERROR GRAVE
+		// TODO CORREGIR EL PORQUE NO SE INGRESAN
+
+		if (!controladorModelo.esConjuntoVacio())
+			for (Paciente elemento : controladorModelo.devolverPacientes())
 				listModel.addElement(elemento);
-		else {
+		else
 			areaTexto.setText("No hay pacientes ingresados :)");
-		}
+
 		list.setModel(listModel);
 		list.add(new JScrollPane());
 		list.addListSelectionListener(new ListSelectionListener() {
@@ -1079,18 +1069,19 @@ public class VistaImplementacion implements Vista, Serializable {
 						"¿Desea dar de alta los pacientes seleccionados?") == JOptionPane.YES_OPTION) {
 
 					if (list.getSelectedValuesList().size() > 1) {
-						modeloGestor.getConjuntoIngresados().removeAll(list.getSelectedValuesList());
+						controladorModelo.eliminarTodoConjunto(list.getSelectedValuesList());
 						areaTexto.setText("");
 						DefaultListModel<Paciente> modeloNuevo = new DefaultListModel<>();
-						if (!modeloGestor.getConjuntoIngresados().isEmpty()) {
-							for (Paciente elemento : modeloGestor.getConjuntoIngresados())
+						if (!controladorModelo.esConjuntoVacio()) {
+							for (Paciente elemento : controladorModelo.devolverPacientes())
 								modeloNuevo.addElement(elemento);
 							list.setModel(modeloNuevo);
+							actualizarInformacion();
 						} else
 							listModel.removeAllElements();
 						actualizarInformacion();
 					} else if (list.getSelectedValuesList().size() == 1) {
-						modeloGestor.getConjuntoIngresados().remove(list.getSelectedValue());
+						controladorModelo.eliminarElemConjunto(list.getSelectedValue());
 						areaTexto.setText("");
 						listModel.removeElement(list.getSelectedValue());
 					} else {
@@ -1109,95 +1100,21 @@ public class VistaImplementacion implements Vista, Serializable {
 		miPanel.add(panelDividido);
 		miPanel.add(darAlta);
 		ventana.getContentPane().add(miPanel);
-		// ventana.setLocationRelativeTo(null);
+		ventana.setLocationRelativeTo(null);
 		ventana.pack();
 		return ventana;
 	}
 
 	public void actualizarInformacion() {
 
-		informacion.setText("En la base de datos hay " + modeloGestor.getMapaPacientes().size() + " paciente/s y "
-				+ modeloGestor.getConjuntoIngresados().size() + " ingresado/s.");
+		informacion.setText("En la base de datos hay " + controladorModelo.numeroPacientes() + " paciente/s y "
+				+ controladorModelo.numeroIngresados() + " ingresado/s.");
 
 	}
-
-	//
-	// @Override
-	// public List<Ingreso> getListaIngreso() {
-
-	// return null;
-	// }
-
-	// @Override
-	// public void setControlador(Controlador c) {
-	// this.controlador = (ControladorImplementacion) c;
-	// }
-
-	@Override
-	public void setModelo(GestionPaciente m) {
-		this.modeloGestor = m;
-	}
-
-	// public void desplegables() {
-	// desplegableGenero.addItem("Hombre");
-	// desplegableGenero.addItem("Mujer");
-	//
-	// desplegableEstado.addItem("Soltero");
-	// desplegableEstado.addItem("Casado");
-	// desplegableEstado.addItem("Divorciado");
-	// desplegableEstado.addItem("Viudo");
-	//
-	// }
 
 	@Override
 	public String getTextoIngreso() {
 		return textoIngreso.getText();
-	}
-
-	public void guardar(File archivo) {
-
-		ObjectOutputStream objeto = null;
-		try {
-			try {
-
-				FileOutputStream file = new FileOutputStream(archivo);
-
-				objeto = new ObjectOutputStream(file);
-				objeto.writeObject(modeloGestor);
-
-			} finally {
-				objeto.close();
-			}
-		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Fichero de datos no existe. Se crea una nueva base.");
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void cargar(File carga) {
-
-		ObjectInputStream objeto = null;
-		try {
-			try {
-				FileInputStream file = new FileInputStream(carga);
-				objeto = new ObjectInputStream(file);
-				modeloGestor = (GestionPaciente) objeto.readObject();
-				actualizarInformacion();
-			} finally {
-				if (objeto != null)
-					objeto.close();
-			}
-		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Fichero de datos inexistente");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	private JFrame ventanaTodos() {
@@ -1237,8 +1154,8 @@ public class VistaImplementacion implements Vista, Serializable {
 		});
 		// BOTON buscar
 		// TODO hacer listmodel public o variable global
-		if (!modeloGestor.getMapaPacientes().isEmpty())
-			for (Paciente elemento : modeloGestor.getMapaPacientes().values())
+		if (!controladorModelo.esMapaVacio())
+			for (Paciente elemento : controladorModelo.todosPacientes())
 				listModel.addElement(elemento);
 		else {
 			areaTexto.setText("No hay pacientes en la base de datos :)");
@@ -1278,16 +1195,11 @@ public class VistaImplementacion implements Vista, Serializable {
 		miPanel.add(new JLabel("Apellidos: "));
 		miPanel.add(apellido);
 		miPanel.add(buscar);
-		// miPanel.setLayout(new BoxLayout(miPanel, BoxLayout.PAGE_AXIS));
-		// superPanel.setLayout(new BoxLayout(superPanel, BoxLayout.Y_AXIS));
 		panelDividido.setLeftComponent(scrollLista);
 		panelDividido.setRightComponent(scrollTexto);
-
 		superPanel.add(panelDividido);
 		superPanel.add(miPanel);
 		ventana.getContentPane().add(superPanel);
-		// ventana.setSize(550, 650);
-		// ventana.setLocationRelativeTo(null);
 		ventana.pack();
 		return ventana;
 
@@ -1306,16 +1218,15 @@ public class VistaImplementacion implements Vista, Serializable {
 	}
 
 	private Set<Paciente> buscar(String pattern) {
-		Map<Integer, Paciente> m = modeloGestor.getMapaPacientes();
-		Set<Paciente> lista = new HashSet<Paciente>();
-		if (!m.isEmpty()) {
-			for (Paciente p : m.values())
+		Set<Paciente> conjunto = new HashSet<Paciente>();
+		if (!controladorModelo.esMapaVacio()) {
+			for (Paciente p : controladorModelo.todosPacientes())
 				if (p.getApellidos().toLowerCase().equals(pattern.toLowerCase())
 						|| p.getApellidos().toLowerCase().startsWith(pattern))
-					lista.add(p);
+					conjunto.add(p);
 
 		}
-		return lista;
+		return conjunto;
 	}
 
 	@Override

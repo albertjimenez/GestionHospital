@@ -1,25 +1,36 @@
 package modelo;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.TreeSet;
 
 import modelo.paciente.Paciente;
 
 public interface Modelo {
-	// TODO eliminar esta mierda en cuanto puedas
-	public abstract Map<Integer, Paciente> getMapaPacientes();
 
 	/**
-	 * Comprueba si está vacio el mapa
+	 * Comprueba si está vacio el MAPA
 	 * 
 	 * @return Verdadero si está vacio o Falso sino lo está
 	 */
 
-	public abstract boolean esVacio();
+	public abstract boolean esMapaVacio();
 
 	/**
-	 * Añade el paciente a la estructura de datos
+	 * Comprueba si la lista de ingresados está vacia
+	 * 
+	 * @return Verdadero si está vacio o Falso sino lo está
+	 */
+	public abstract boolean esConjuntoVacio();
+
+	/**
+	 * Permite devolver todos los pacientes sin devolver el objeto del conjunto
+	 * 
+	 * @return Conjunto actual de pacientes ingresados
+	 */
+	public abstract TreeSet<Paciente> devolverPacientes();
+
+	/**
+	 * Añade el paciente a la estructura de datos Mapa
 	 * 
 	 * @param Paciente
 	 *            que hay que añadir
@@ -29,7 +40,7 @@ public interface Modelo {
 	public abstract boolean addPaciente(Paciente unPaciente);
 
 	/**
-	 * Borra el paciente de la estructura de datos
+	 * Borra el paciente de la estructura de datos Mapa
 	 * 
 	 * @param Paciente
 	 *            que hay que borrar
@@ -39,7 +50,23 @@ public interface Modelo {
 	public abstract boolean removePaciente(Paciente unPaciente);
 
 	/**
-	 * Edita el paciente de la estructura de datos
+	 * Elimina un paciente del conjunto de ingresados
+	 * 
+	 * @param Paciente
+	 *            a eliminar
+	 */
+	public abstract void eliminarElemConjunto(Paciente p);
+
+	/**
+	 * Vacia todo el conjunto de ingresados
+	 * 
+	 * @param coleccion
+	 *            con los pacientes a eliminar
+	 */
+	public abstract void eliminarTodoConjunto(Collection<Paciente> coleccion);
+
+	/**
+	 * Edita el paciente de la estructura de datos Mapa
 	 * 
 	 * @param Paciente
 	 *            que hay que editar
@@ -93,7 +120,18 @@ public interface Modelo {
 	 */
 	public abstract Collection<Paciente> todosPacientes();
 
-	// TODO eliminar esta mierda en cuanto puedas
-	public abstract TreeSet<Paciente> getConjuntoIngresados();
+	/**
+	 * Numero de pacientes actuales en la base de datos (Mapa)
+	 * 
+	 * @return Devuelve el numero, o 0 si no hay
+	 */
+	public abstract int numeroPacientes();
+
+	/**
+	 * Numero de pacientes actuales ingresados (TreeSet)
+	 * 
+	 * @return Devuelve el numero, o 0 si no hay
+	 */
+	public abstract int numeroIngresados();
 
 }

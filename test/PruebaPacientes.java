@@ -14,18 +14,18 @@ public class PruebaPacientes {
 	Modelo gestor = new GestionPaciente();
 
 	@Test
-	public void test() {
+	public void testAdd() {
 
-		for (int i = 0; i < 2000; i++) {
+		for (int i = 0; i < 20000; i++) {
 			int key = i;
 			Paciente value = new Paciente("s", "a", key, new GregorianCalendar(1, 1, 1), "h", "h", "h", "h", 12500,
 					"d");
-			gestor.getMapaPacientes().putIfAbsent(key, value);
+			gestor.addPaciente(value);
 
 		}
 		// System.out.println(gestor.getMapaPacientes().values().toString());
 		// System.out.println(gestor.getMapaPacientes().toString());
-		assertEquals(2000, gestor.getMapaPacientes().size(), 0);
+		assertEquals(20000, gestor.numeroPacientes(), 0);
 
 		// fail("Not yet implemented");
 	}
@@ -36,12 +36,12 @@ public class PruebaPacientes {
 		gestor.addPaciente(p1);
 		// System.out.println(gestor.getMapaPacientes().toString());
 
-		assertEquals("sa", gestor.getMapaPacientes().get(5000).getNombre());
+		assertEquals("sa", gestor.searchPaciente(5000).getNombre());
 		Paciente p2 = new Paciente("sab", "a", 5000, new GregorianCalendar(1, 1, 1), "h", "h", "h", "h", 12500, "d");
 		assertEquals(gestor.editPaciente(p2), true);
 
 		// System.out.println(gestor.getMapaPacientes().toString());
-		assertEquals("sab", gestor.getMapaPacientes().get(5000).getNombre());
+		assertEquals("sab", gestor.searchPaciente(5000).getNombre());
 
 		Paciente p3 = new Paciente("sab", "a", 5200, new GregorianCalendar(1, 1, 1), "h", "h", "h", "h", 12500, "d");
 		assertEquals(gestor.editPaciente(p3), false);

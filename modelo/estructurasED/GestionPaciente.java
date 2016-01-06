@@ -2,7 +2,6 @@ package modelo.estructurasED;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Map;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,16 +20,23 @@ public class GestionPaciente implements Serializable, Modelo {
 	}
 
 	@Override
-	public Map<Integer, Paciente> getMapaPacientes() {
-		return mapaPacientes;
-	}
-
-	@Override
 	public boolean addPaciente(Paciente unPaciente) {
 
 		int clave = unPaciente.getSIP();
 		Paciente p = mapaPacientes.putIfAbsent(clave, unPaciente);
 		return p == null;
+
+	}
+
+	@Override
+	public void eliminarElemConjunto(Paciente p) {
+		conjuntoIngresados.remove(p);
+
+	}
+
+	@Override
+	public void eliminarTodoConjunto(Collection<Paciente> coleccion) {
+		conjuntoIngresados.removeAll(coleccion);
 
 	}
 
@@ -84,13 +90,15 @@ public class GestionPaciente implements Serializable, Modelo {
 		return false;
 	}
 
-	public TreeSet<Paciente> getConjuntoIngresados() {
-		return conjuntoIngresados;
+	@Override
+	public boolean esMapaVacio() {
+		return mapaPacientes.isEmpty();
 	}
 
 	@Override
-	public boolean esVacio() {
-		return mapaPacientes.isEmpty();
+	public boolean esConjuntoVacio() {
+
+		return conjuntoIngresados.isEmpty();
 	}
 
 	@Override
@@ -98,4 +106,19 @@ public class GestionPaciente implements Serializable, Modelo {
 		return mapaPacientes.values();
 	}
 
+	@Override
+	public TreeSet<Paciente> devolverPacientes() {
+
+		return conjuntoIngresados;
+	}
+
+	@Override
+	public int numeroIngresados() {
+		return conjuntoIngresados.size();
+	}
+
+	@Override
+	public int numeroPacientes() {
+		return mapaPacientes.values().size();
+	}
 }

@@ -14,6 +14,7 @@ public class Principal {
 		ControladorImplementacionModelo c = new ControladorImplementacionModelo();
 		// v.setModelo(m);
 		v.setControlador(c);
+
 		c.setModelo(m);
 
 		SwingUtilities.invokeLater(new Runnable() {

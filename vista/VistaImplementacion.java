@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -179,6 +181,7 @@ public class VistaImplementacion implements Vista, Serializable {
 		superpanel.add(panel3);
 		superpanel.add(panel2);
 		contenedor.add(superpanel);
+		ventana.setIconImage(new ImageIcon(getClass().getResource("/media/64/iconoPrincipal.png")).getImage());
 		ventana.setLocationRelativeTo(null);
 		// acciones
 
@@ -710,6 +713,13 @@ public class VistaImplementacion implements Vista, Serializable {
 			}
 
 		});
+		// FOCUS cajaNombre
+		miVentana.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				cajaNombre.requestFocus();
+			}
+		});
 		panel3.add(addPaciente);
 		superPanel.add(panel);
 		superPanel.add(panel2);
@@ -767,7 +777,13 @@ public class VistaImplementacion implements Vista, Serializable {
 				}
 			}
 		});
-
+		// FOCUS FUNCIONA!
+		miVentana.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				cajaSip.requestFocus();
+			}
+		});
 		miVentana.getContentPane().add(panel);
 		miVentana.pack();
 		cleaner();

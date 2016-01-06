@@ -6,7 +6,7 @@ import modelo.estructurasED.GestionPaciente;
 import modelo.paciente.Paciente;
 
 public interface ControladorModelo {
-	// public void setVista(Vista v);
+
 	public boolean esVacio();
 
 	public void setModelo(GestionPaciente m);

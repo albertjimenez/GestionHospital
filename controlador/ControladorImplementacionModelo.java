@@ -145,4 +145,9 @@ public class ControladorImplementacionModelo implements ControladorModelo {
 
 	}
 
+	@Override
+	public Set<Paciente> buscarNombre(String pattern) {
+		return modelo.buscarNombre(pattern);
+	}
+
 }

@@ -121,6 +121,16 @@ public interface Modelo {
 	public abstract Collection<Paciente> todosPacientes();
 
 	/**
+	 * Busca con nombre y apellido a todos los pacientes de la base de datos
+	 * 
+	 * @param pattern
+	 *            Cadena con nombre y/o apellidos
+	 * @return Conjunto de pacientes o conjunto vacio.
+	 */
+
+	public abstract Set<Paciente> buscarNombre(String pattern);
+
+	/**
 	 * Numero de pacientes actuales en la base de datos (Mapa)
 	 * 
 	 * @return Devuelve el numero, o 0 si no hay

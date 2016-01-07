@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -633,15 +631,22 @@ public class VistaImplementacion implements Vista, Serializable {
 		// cajaNombre.requestFocus();
 		fechaN.setPreferredSize(new Dimension(150, 50));
 		superPanel.setLayout(new BoxLayout(superPanel, BoxLayout.Y_AXIS));
-		desplegableGenero.addItem("Hombre");
-		desplegableGenero.addItem("Mujer");
-
-		desplegableEstado.addItem("Soltero");
-		desplegableEstado.addItem("Casado");
-		desplegableEstado.addItem("Divorciado");
-		desplegableEstado.addItem("Viudo");
-		desplegableTipoIngreso.addItem("Paliativo");
-		desplegableTipoIngreso.addItem("Oncológico");
+		String[] vectorGeneros = { "Hombre", "Mujer" };
+		String[] vectorEstados = { "Soltero", "Casado", "Divorciado", "Viudo" };
+		String[] vectorTipoIngreso = { "Paliativo", "Oncológico" };
+		rellenarDesplegables(desplegableEstado, vectorEstados);
+		rellenarDesplegables(desplegableGenero, vectorGeneros);
+		rellenarDesplegables(desplegableTipoIngreso, vectorTipoIngreso);
+		// rellenarDesplegables(JComboBox<String> desplegable, String[]
+		// elementos);
+		// desplegableGenero.addItem("Hombre");
+		// desplegableGenero.addItem("Mujer");
+		// desplegableEstado.addItem("Soltero");
+		// desplegableEstado.addItem("Casado");
+		// desplegableEstado.addItem("Divorciado");
+		// desplegableEstado.addItem("Viudo");
+		// desplegableTipoIngreso.addItem("Paliativo");
+		// desplegableTipoIngreso.addItem("Oncológico");
 
 		JPanel panel = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -1180,8 +1185,8 @@ public class VistaImplementacion implements Vista, Serializable {
 
 				if (apellido.getText() != "") {
 					DefaultListModel<Paciente> nuevoModelo = new DefaultListModel<>();
-					if (!buscar(apellido.getText()).isEmpty()) {
-						for (Paciente p : buscar(apellido.getText()))
+					if (!controladorModelo.buscarNombre(apellido.getText()).isEmpty()) {
+						for (Paciente p : controladorModelo.buscarNombre(apellido.getText()))
 							nuevoModelo.addElement(p);
 						list.setModel(nuevoModelo);
 					} else {
@@ -1228,22 +1233,15 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	}
 
-	private Set<Paciente> buscar(String pattern) {
-		Set<Paciente> conjunto = new HashSet<Paciente>();
-		if (!controladorModelo.esMapaVacio()) {
-			for (Paciente p : controladorModelo.todosPacientes())
-				if (p.getApellidos().toLowerCase().equals(pattern.toLowerCase())
-						|| p.getApellidos().toLowerCase().startsWith(pattern))
-					conjunto.add(p);
-
-		}
-		return conjunto;
-	}
-
 	@Override
 	public void setControlador(ControladorImplementacionModelo c) {
 		this.controladorModelo = c;
 
 	}
 
+	private void rellenarDesplegables(JComboBox<String> desplegable, String[] elementos) {
+		for (String string : elementos)
+			desplegable.addItem(string);
+
+	}
 }

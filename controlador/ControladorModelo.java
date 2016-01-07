@@ -50,4 +50,6 @@ public interface ControladorModelo {
 	public void guardar(File archivo);
 
 	public void cargar(File archivo);
+
+	public Set<Paciente> buscarNombre(String pattern);
 }

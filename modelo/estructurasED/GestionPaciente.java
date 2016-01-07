@@ -123,4 +123,16 @@ public class GestionPaciente implements Serializable, Modelo {
 	public int numeroPacientes() {
 		return mapaPacientes.values().size();
 	}
+
+	@Override
+	public Set<Paciente> buscarNombre(String pattern) {
+		Set<Paciente> conjunto = new HashSet<Paciente>();
+		if (!mapaPacientes.isEmpty()) {
+			for (Paciente p : mapaPacientes.values())
+				if (p.getApellidos().toLowerCase().equals(pattern.toLowerCase())
+						|| p.getApellidos().toLowerCase().startsWith(pattern))
+					conjunto.add(p);
+		}
+		return conjunto;
+	}
 }

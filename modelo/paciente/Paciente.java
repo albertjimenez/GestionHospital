@@ -28,8 +28,7 @@ public class Paciente implements Comparable<Paciente>, Serializable {
 	private String tipoIngreso;
 
 	// Constructor
-	public Paciente(String nombre, String apellidos, int sIP,
-			Calendar fechaNacimiento, String sexo, String estado,
+	public Paciente(String nombre, String apellidos, int sIP, Calendar fechaNacimiento, String sexo, String estado,
 			String poblacion, String provincia, int cP, String doctor) {
 		super();
 		this.nombre = nombre;
@@ -58,20 +57,16 @@ public class Paciente implements Comparable<Paciente>, Serializable {
 
 	// @Override
 	public String toString2() {
-		SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy",
-				new Locale("es_ES"));
+		SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
 		String ing = "";
 		if (ingresos.isEmpty())
 			ing = "No hay ingresos registrados";
 		else
 			ing = ingresos.toString();
-		return "\nNombre: " + nombre + "\nApellidos: " + apellidos + "\nSIP: "
-				+ SIP + "\nNº Historia: " + numHistoria
-				+ "\nFecha de nacimiento: "
-				+ formateador.format(fechaNacimiento.getTime()) + "\nSexo: "
-				+ sexo + "\nEstado: " + estado + "\nPoblación: " + poblacion
-				+ "\nProvíncia: " + provincia + "\nCP: " + CP + "\nDoctor: "
-				+ doctor + "\n======================\n: " + ing;
+		return "\nNombre: " + nombre + "\nApellidos: " + apellidos + "\nSIP: " + SIP + "\nNº Historia: " + numHistoria
+				+ "\nFecha de nacimiento: " + formateador.format(fechaNacimiento.getTime()) + "\nSexo: " + sexo
+				+ "\nEstado: " + estado + "\nPoblación: " + poblacion + "\nProvíncia: " + provincia + "\nCP: " + CP
+				+ "\nDoctor: " + doctor + "\n======================\n: " + ing;
 	}
 
 	@Override
@@ -98,10 +93,6 @@ public class Paciente implements Comparable<Paciente>, Serializable {
 
 	public int getSIP() {
 		return SIP;
-	}
-
-	public void setSIP(int sIP) {
-		SIP = sIP;
 	}
 
 	public Calendar getFechaNacimiento() {
@@ -173,14 +164,10 @@ public class Paciente implements Comparable<Paciente>, Serializable {
 	}
 
 	public String toStringAntiIngresos() {
-		SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy",
-				new Locale("es_ES"));
-		return "Nombre: " + nombre + " Apellidos: " + apellidos + " SIP: "
-				+ SIP + " Fecha de nacimiento: "
-				+ formateador.format(fechaNacimiento.getTime()) + " Sexo: "
-				+ sexo + " Estado: " + estado + " Población: " + poblacion
-				+ " Província: " + provincia + " CP: " + CP + " Doctor: "
-				+ doctor;
+		SimpleDateFormat formateador = new SimpleDateFormat("dd'/'MM'/'yyyy", new Locale("es_ES"));
+		return "Nombre: " + nombre + " Apellidos: " + apellidos + " SIP: " + SIP + " Fecha de nacimiento: "
+				+ formateador.format(fechaNacimiento.getTime()) + " Sexo: " + sexo + " Estado: " + estado
+				+ " Población: " + poblacion + " Província: " + provincia + " CP: " + CP + " Doctor: " + doctor;
 	}
 
 	public String getTipoIngreso() {

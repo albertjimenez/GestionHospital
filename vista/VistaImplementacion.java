@@ -49,6 +49,9 @@ import modelo.paciente.Paciente;
 
 public class VistaImplementacion implements Vista, Serializable {
 	// Atributos
+	final String[] vectorGeneros = { "Hombre", "Mujer" };
+	final String[] vectorEstados = { "Soltero", "Casado", "Divorciado", "Viudo" };
+	final String[] vectorTipoIngreso = { "Paliativo", "Oncológico" };
 	int contador = 1;
 
 	// private GestionPaciente modeloGestor;
@@ -62,12 +65,12 @@ public class VistaImplementacion implements Vista, Serializable {
 	private JCalendarComboBox fechaN;
 	private JComboBox<String> desplegableGenero;
 	private JComboBox<String> desplegableEstado;
+	private JComboBox<String> desplegableTipoIngreso;
 	private JTextField cajaPoblacion;
 	private JTextField cajaProvincia;
 	private JTextField cajaCP;
 	private JTextField cajaDoctor;
 	private JTextField textoIngreso;
-	private JComboBox<String> desplegableTipoIngreso;
 	private JLabel informacion;
 
 	public VistaImplementacion() {
@@ -214,6 +217,7 @@ public class VistaImplementacion implements Vista, Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaBusqueda window = new VentanaBusqueda();
+				window.setControladorModelo(controladorModelo);
 				window.creaVentana("Ventana de Búsqueda");
 			}
 		});
@@ -625,28 +629,14 @@ public class VistaImplementacion implements Vista, Serializable {
 
 	@Override
 	public JFrame ventanaPacientes() {
-		// desplegables();
 		JFrame miVentana = new JFrame("Añadir Pacientes");
 		JPanel superPanel = new JPanel();
-		// cajaNombre.requestFocus();
 		fechaN.setPreferredSize(new Dimension(150, 50));
 		superPanel.setLayout(new BoxLayout(superPanel, BoxLayout.Y_AXIS));
-		String[] vectorGeneros = { "Hombre", "Mujer" };
-		String[] vectorEstados = { "Soltero", "Casado", "Divorciado", "Viudo" };
-		String[] vectorTipoIngreso = { "Paliativo", "Oncológico" };
+
 		rellenarDesplegables(desplegableEstado, vectorEstados);
 		rellenarDesplegables(desplegableGenero, vectorGeneros);
 		rellenarDesplegables(desplegableTipoIngreso, vectorTipoIngreso);
-		// rellenarDesplegables(JComboBox<String> desplegable, String[]
-		// elementos);
-		// desplegableGenero.addItem("Hombre");
-		// desplegableGenero.addItem("Mujer");
-		// desplegableEstado.addItem("Soltero");
-		// desplegableEstado.addItem("Casado");
-		// desplegableEstado.addItem("Divorciado");
-		// desplegableEstado.addItem("Viudo");
-		// desplegableTipoIngreso.addItem("Paliativo");
-		// desplegableTipoIngreso.addItem("Oncológico");
 
 		JPanel panel = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -731,7 +721,6 @@ public class VistaImplementacion implements Vista, Serializable {
 		superPanel.add(panel3);
 		miVentana.getContentPane().add(superPanel);
 		miVentana.pack();
-
 		return miVentana;
 	}
 
@@ -799,8 +788,6 @@ public class VistaImplementacion implements Vista, Serializable {
 		// Tostring del cliente y getListaIngresos.toString en 2 bloques
 		// distintos
 		JPanel panel = new JPanel();
-		// JTextPane textoPaciente = new JTextPane();
-		// JTextPane textIngreso = new JTextPane();
 		panel.add(new JLabel("Inserta el SIP "));
 		JTextField cajaBuscarPaciente = new JTextField(8);
 		JButton botonBusqueda = new JButton("Buscar", new ImageIcon(getClass().getResource("/media/32/buscar.png")));
@@ -831,21 +818,14 @@ public class VistaImplementacion implements Vista, Serializable {
 						JCalendarComboBox fechaN = new JCalendarComboBox();
 						JComboBox<String> desplegableGenero = new JComboBox<String>();
 						JComboBox<String> desplegableEstado = new JComboBox<String>();
+						JComboBox<String> desplegableTipoIngreso = new JComboBox<String>();
 						JTextField cajaPoblacion = new JTextField(10);
 						JTextField cajaProvincia = new JTextField(10);
 						JTextField cajaCP = new JTextField(7);
 						JTextField cajaDoctor = new JTextField(8);
-
-						JComboBox<String> desplegableTipoIngreso = new JComboBox<String>();
-						desplegableGenero.addItem("Hombre");
-						desplegableGenero.addItem("Mujer");
-
-						desplegableEstado.addItem("Soltero");
-						desplegableEstado.addItem("Casado");
-						desplegableEstado.addItem("Divorciado");
-						desplegableEstado.addItem("Viudo");
-						desplegableTipoIngreso.addItem("Paliativo");
-						desplegableTipoIngreso.addItem("Oncológico");
+						rellenarDesplegables(desplegableTipoIngreso, vectorTipoIngreso);
+						rellenarDesplegables(desplegableEstado, vectorEstados);
+						rellenarDesplegables(desplegableGenero, vectorGeneros);
 						panel.add(new JLabel("Nombre: "));
 						panel.add(cajaNombre);
 						panel.add(new JLabel("Apellidos: "));

@@ -98,7 +98,7 @@ class escuchadorBotonBusqueda implements ActionListener {
 	}
 
 	/**
-	 * Accion a realizar
+	 * Accion a realizar!
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

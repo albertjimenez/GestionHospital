@@ -138,7 +138,7 @@ public interface Modelo {
 	public abstract int numeroPacientes();
 
 	/**
-	 * Numero de pacientes actuales ingresados (TreeSet)
+	 * Numero de pacientes actuales ingresados (HashSet)
 	 * 
 	 * @return Devuelve el numero, o 0 si no hay
 	 */

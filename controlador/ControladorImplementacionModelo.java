@@ -1,16 +1,16 @@
 package controlador;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import modelo.estructurasED.GestionPaciente;
 import modelo.paciente.Paciente;
@@ -101,21 +101,32 @@ public class ControladorImplementacionModelo implements ControladorModelo {
 	@Override
 	public void guardar(File archivo) {
 
-		ObjectOutputStream objeto = null;
+		// ObjectOutputStream objeto = null;
+		// try {
+		// try {
+		// FileOutputStream file = new FileOutputStream(archivo);
+		// objeto = new ObjectOutputStream(file);
+		// // TODO Revisar esto
+		// objeto.writeObject(modelo);
+		//
+		// } finally {
+		// objeto.close();
+		// }
+		// } catch (FileNotFoundException e) {
+		// JOptionPane.showMessageDialog(null, "Fichero de datos no existe. Se
+		// crea una nueva base.");
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 		try {
-			try {
 
-				FileOutputStream file = new FileOutputStream(archivo);
-				objeto = new ObjectOutputStream(file);
-				// TODO Revisar esto
-				objeto.writeObject(modelo);
+			FileWriter escritor = new FileWriter(archivo);
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String cadenaModelo = gson.toJson(modelo);
+			escritor.write(cadenaModelo);
+			escritor.close();
 
-			} finally {
-				objeto.close();
-			}
-		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Fichero de datos no existe. Se crea una nueva base.");
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -124,25 +135,33 @@ public class ControladorImplementacionModelo implements ControladorModelo {
 
 	@Override
 	public void cargar(File fichero) {
-		ObjectInputStream objeto = null;
+		// ObjectInputStream objeto = null;
+		// try {
+		// try {
+		// FileInputStream file = new FileInputStream(fichero);
+		// objeto = new ObjectInputStream(file);
+		// modelo = (GestionPaciente) objeto.readObject();
+		//
+		// } finally {
+		// if (objeto != null)
+		// objeto.close();
+		// }
+		// } catch (FileNotFoundException e) {
+		// JOptionPane.showMessageDialog(null, "Fichero de datos inexistente");
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// } catch (ClassNotFoundException e) {
+		// e.printStackTrace();
+		// }
+		Gson gson = new Gson();
 		try {
-			try {
-				FileInputStream file = new FileInputStream(fichero);
-				objeto = new ObjectInputStream(file);
-				modelo = (GestionPaciente) objeto.readObject();
+			BufferedReader buf = new BufferedReader(new FileReader(fichero));
+			GestionPaciente nuevoModelo = gson.fromJson(buf, GestionPaciente.class);
+			modelo = nuevoModelo;
 
-			} finally {
-				if (objeto != null)
-					objeto.close();
-			}
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Fichero de datos inexistente");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override

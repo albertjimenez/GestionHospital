@@ -259,19 +259,16 @@ public class VistaImplementacion implements Vista, Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// file.setAcceptAllFileFilterUsed(false);
-
-				file.setFileFilter(new FileNameExtensionFilter("Archivo Binario", "bin"));
+				file.setFileFilter(new FileNameExtensionFilter("Archivo JSON", "json"));
 				file.setDialogTitle("Guardar archivo");
-				file.setName(file.getName() + ".bin");
+				file.setName(file.getName() + ".json");
 				file.setAcceptAllFileFilterUsed(false);
 
 				if (file.showSaveDialog(null) == JFileChooser.CANCEL_OPTION)
 					JOptionPane.showMessageDialog(null, "No se ha guardado ningún archivo");
 				else {
 					File guarda = file.getSelectedFile();
-					File g = new File(guarda.getAbsolutePath() + ".bin");
-
+					File g = new File(guarda.getAbsolutePath() + ".json");
 					controladorModelo.guardar(g);
 					JOptionPane.showMessageDialog(null, "Datos guardados con éxito");
 				}
@@ -284,7 +281,7 @@ public class VistaImplementacion implements Vista, Serializable {
 			public void actionPerformed(ActionEvent e) {
 				file.setDialogTitle("Cargar archivo");
 
-				file.setFileFilter(new FileNameExtensionFilter("Archivo Binario", "bin"));
+				file.setFileFilter(new FileNameExtensionFilter("Archivo JSON", "json"));
 				file.setMultiSelectionEnabled(false);
 
 				file.setAcceptAllFileFilterUsed(false);

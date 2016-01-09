@@ -9,14 +9,11 @@ import java.util.Locale;
 
 public class Paciente implements Comparable<Paciente>, Serializable {
 
-	// Constante
-	public final int MAX_TIEMPO_INGRESO = 15;
-
 	// Atributos
 	private String nombre;
 	private String apellidos;
 	private int SIP; // 8 cifras
-	public static int numHistoria = 1000; // accesible y variable global
+
 	private Calendar fechaNacimiento;
 	private String sexo;
 	private String estado;
@@ -63,16 +60,16 @@ public class Paciente implements Comparable<Paciente>, Serializable {
 			ing = "No hay ingresos registrados";
 		else
 			ing = ingresos.toString();
-		return "\nNombre: " + nombre + "\nApellidos: " + apellidos + "\nSIP: " + SIP + "\nNº Historia: " + numHistoria
-				+ "\nFecha de nacimiento: " + formateador.format(fechaNacimiento.getTime()) + "\nSexo: " + sexo
-				+ "\nEstado: " + estado + "\nPoblación: " + poblacion + "\nProvíncia: " + provincia + "\nCP: " + CP
-				+ "\nDoctor: " + doctor + "\n======================\n: " + ing;
+		return "\nNombre: " + nombre + "\nApellidos: " + apellidos + "\nSIP: " + SIP + "\nFecha de nacimiento: "
+				+ formateador.format(fechaNacimiento.getTime()) + "\nSexo: " + sexo + "\nEstado: " + estado
+				+ "\nPoblación: " + poblacion + "\nProvíncia: " + provincia + "\nCP: " + CP + "\nDoctor: " + doctor
+				+ "\n======================\n: " + ing;
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return this.nombre + " " + this.apellidos;
+		// HE cambiado el toString
+		return this.nombre + " " + this.apellidos + " SIP: " + this.SIP;
 	}
 
 	public String getNombre() {
@@ -149,14 +146,6 @@ public class Paciente implements Comparable<Paciente>, Serializable {
 
 	public void setDoctor(String doctor) {
 		this.doctor = doctor;
-	}
-
-	public int getNumHistoria() {
-		return numHistoria;
-	}
-
-	public static void setNumHistoria(int numHistoria) {
-		Paciente.numHistoria = numHistoria;
 	}
 
 	public List<Ingreso> getIngresos() {

@@ -21,6 +21,14 @@ implement a few ActionListeners and some graphical windows to input text)
 
 ->vista (Save and interacts with the view Swing)
 
+# External Libraries
+-> Jackson Core 2.7 RC1 to parse Paciente.class  
+http://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+-> JExcelApi to perform a writable xls Excel sheet with all the data
+http://jexcelapi.sourceforge.net
+-> JCalendar to display a tiny GUI calendar to pick dates
+http://toedter.com/jcalendar/
 
-LICENSE:
+
+# LICENSE:
 En la presente licencia de ‘Gestión Hospitalaria’ desarrollada íntegramente por Albert Antoni Jiménez Fuentes, se permite el uso a Pablo Serra Bel y superiores, siempre que se respete el uso como tal del software a fines personales. Cualquier modificación, redistribución y/o venta del mismo suponen una anulación de los fines destinados con consecuencias legales.

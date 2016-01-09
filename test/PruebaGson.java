@@ -21,13 +21,15 @@ public class PruebaGson {
 
 	@Test
 	public void test() {
+		long t1, t2;
+		t1 = System.nanoTime();
+		System.out.println("Comienza la creacion y adicion de 100.000 pacientes");
 		GestionPaciente gestor = new GestionPaciente();
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 100000; i++)
 			gestor.addPaciente(new Paciente("Santi", "Bernabeuses", i, Calendar.getInstance(), "H", "estado", "pob",
 					"p", 12500, "F"));
 		String cadena = exportador.toJson(gestor);
 		System.out.println("===========");
-		System.out.println(cadena);
 		try {
 			FileWriter writer = new FileWriter("/Users/Beruto/Desktop/exportado.json");
 			writer.write(cadena);
@@ -39,11 +41,13 @@ public class PruebaGson {
 		try {
 			BufferedReader buf = new BufferedReader(new FileReader("/Users/Beruto/Desktop/exportado.json"));
 			GestionPaciente returnedPatient = exportador.fromJson(buf, GestionPaciente.class);
-			assertEquals(true, returnedPatient.numeroPacientes() == 100);
-			System.out.println(returnedPatient.numeroIngresados());
+			t2 = System.nanoTime();
+			double tPar = ((double) (t2 - t1)) / 1.0e9;
+			assertEquals(true, returnedPatient.numeroPacientes() == 100000);
+			System.out.println("Y el tiempo es: " + tPar);
 
 		} catch (IOException e) {
-			// TODO: handle exception
+
 		}
 	}
 

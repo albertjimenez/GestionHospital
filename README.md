@@ -22,12 +22,21 @@ implement a few ActionListeners and some graphical windows to input text)
 ->vista (Save and interacts with the view Swing)
 
 # External Libraries
+__Links:
+
+
 -> Jackson Core 2.7 RC1 to parse Paciente.class  
 http://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+
+
 -> JExcelApi to perform a writable xls Excel sheet with all the data
 http://jexcelapi.sourceforge.net
+
+
 -> JCalendar to display a tiny GUI calendar to pick dates
 http://toedter.com/jcalendar/
+
+
 
 
 # LICENSE:

@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.junit.Test;
 
@@ -18,6 +20,7 @@ import modelo.paciente.Paciente;
 
 public class PruebaGson {
 	Gson exportador = new GsonBuilder().setPrettyPrinting().create();
+	ExecutorService exec = Executors.newFixedThreadPool(4);
 
 	@Test
 	public void test() {
@@ -26,8 +29,11 @@ public class PruebaGson {
 		System.out.println("Comienza la creacion y adicion de 100.000 pacientes");
 		GestionPaciente gestor = new GestionPaciente();
 		for (int i = 0; i < 100000; i++)
-			gestor.addPaciente(new Paciente("Santi", "Bernabeuses", i, Calendar.getInstance(), "H", "estado", "pob",
-					"p", 12500, "F"));
+			exec.execute(new MiHebraDeadpool(gestor, new Paciente("Santi", "Bernabeuses", i, Calendar.getInstance(),
+					"H", "estado", "pob", "p", 12500, "F")));
+
+		exec.shutdown();
+
 		String cadena = exportador.toJson(gestor);
 		System.out.println("===========");
 		try {
@@ -51,4 +57,23 @@ public class PruebaGson {
 		}
 	}
 
+}
+
+class MiHebraDeadpool extends Thread {
+	GestionPaciente g;
+	Paciente p;
+
+	// TODO si quiero hacer la version rapida, deberia hacer el
+	// metodo de los dos pasos, crear una version Local añadirla
+	// e incrementar al final
+	public MiHebraDeadpool(GestionPaciente g, Paciente p) {
+		super();
+		this.g = g;
+		this.p = p;
+	}
+
+	@Override
+	public void run() {
+		g.addPaciente(p);
+	}
 }

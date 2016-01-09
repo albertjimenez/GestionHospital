@@ -259,19 +259,24 @@ public class VistaImplementacion implements Vista, Serializable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				file.setFileFilter(new FileNameExtensionFilter("Archivo JSON", "json"));
-				file.setDialogTitle("Guardar archivo");
-				file.setName(file.getName() + ".json");
-				file.setAcceptAllFileFilterUsed(false);
+				if (controladorModelo.numeroPacientes() != 0) {
 
-				if (file.showSaveDialog(null) == JFileChooser.CANCEL_OPTION)
-					JOptionPane.showMessageDialog(null, "No se ha guardado ningún archivo");
-				else {
-					File guarda = file.getSelectedFile();
-					File g = new File(guarda.getAbsolutePath() + ".json");
-					controladorModelo.guardar(g);
-					JOptionPane.showMessageDialog(null, "Datos guardados con éxito");
-				}
+					file.setFileFilter(new FileNameExtensionFilter("Archivo JSON", "json"));
+					file.setDialogTitle("Guardar archivo");
+					file.setName(file.getName() + ".json");
+					file.setAcceptAllFileFilterUsed(false);
+
+					if (file.showSaveDialog(null) == JFileChooser.CANCEL_OPTION)
+						JOptionPane.showMessageDialog(null, "No se ha guardado ningún archivo");
+					else {
+						File guarda = file.getSelectedFile();
+						File g = new File(guarda.getAbsolutePath() + ".json");
+						controladorModelo.guardar(g);
+						JOptionPane.showMessageDialog(null, "Datos guardados con éxito");
+					}
+
+				} else
+					JOptionPane.showMessageDialog(null, "No hay pacientes que guardar");
 			}
 		});
 		// Accion cargar
@@ -927,7 +932,7 @@ public class VistaImplementacion implements Vista, Serializable {
 		panel.add(botonBusqueda);
 		miVentana.getContentPane().add(panel);
 		miVentana.pack();
-		miVentana.isVisible();
+		miVentana.setLocationRelativeTo(null);
 		return miVentana;
 
 	}
@@ -1132,6 +1137,14 @@ public class VistaImplementacion implements Vista, Serializable {
 		JScrollPane scrollLista = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+		// Meter el focus de apellido
+		ventana.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				apellido.requestFocus();
+			}
+		});
+
 		list.addListSelectionListener(new ListSelectionListener() {
 
 			@Override
@@ -1220,5 +1233,14 @@ public class VistaImplementacion implements Vista, Serializable {
 		for (String string : elementos)
 			desplegable.addItem(string);
 
+	}
+
+	public static boolean mostrarConfirmacionBorrado(int numeroSip) {
+		return JOptionPane.showConfirmDialog(null,
+				"Desea borrar el paciente con SIP: " + numeroSip) == JOptionPane.YES_OPTION;
+	}
+
+	public static void mostrarBorradoExitoso() {
+		JOptionPane.showMessageDialog(null, "Paciente borrado");
 	}
 }

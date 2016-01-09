@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import controlador.ControladorImplementacionModelo;
 import de.wannawork.jcalendar.JCalendarComboBox;
 import modelo.paciente.Paciente;
+import vista.VistaImplementacion;
 
 public class VentanaEditarPaciente extends JFrame {
 	// TODO boton para borrar paciente
@@ -43,6 +44,7 @@ public class VentanaEditarPaciente extends JFrame {
 	private JTextField cajaCP;
 	private JTextField cajaDoctor;
 	private JButton editPaciente;
+	private JButton removePaciente;
 	private ControladorImplementacionModelo controladorModelo;
 	private Paciente p;
 
@@ -67,8 +69,15 @@ public class VentanaEditarPaciente extends JFrame {
 		cajaProvincia = new JTextField(10);
 		cajaCP = new JTextField(7);
 		cajaDoctor = new JTextField(8);
-
 		editPaciente = new JButton("Editar paciente");
+		removePaciente = new JButton("Eliminar Paciente");
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+
+				abierta = false;
+			}
+		});
 	}
 
 	/**
@@ -83,6 +92,7 @@ public class VentanaEditarPaciente extends JFrame {
 			rellenarDesplegables(desplegableGenero, vectorGeneros);
 			rellenarDesplegables(desplegableTipoIngreso, vectorTipoIngreso);
 			editPaciente.setIcon(new ImageIcon(getClass().getResource("/media/32/edit.png")));
+			removePaciente.setIcon(new ImageIcon(getClass().getResource("/media/32/remove.png")));
 			addElementos();
 			setCampos();
 			editPaciente.addActionListener(new ActionListener() {
@@ -104,6 +114,21 @@ public class VentanaEditarPaciente extends JFrame {
 							provincia, cP, doctor);
 					controladorModelo.editarPaciente(p);
 					JOptionPane.showMessageDialog(null, "Editado Correctamente");
+					setVisible(false);
+				}
+			});
+			removePaciente.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int numeroSip = Integer.parseInt(cajaSip.getText());
+					Paciente paciente = controladorModelo.recuperarPaciente(numeroSip);
+					if (VistaImplementacion.mostrarConfirmacionBorrado(numeroSip)) {
+						controladorModelo.borrarPaciente(paciente);
+						VistaImplementacion.mostrarBorradoExitoso();
+						setVisible(false);
+					}
+
 				}
 			});
 			this.setTitle("Editar Paciente");
@@ -153,6 +178,7 @@ public class VentanaEditarPaciente extends JFrame {
 		panel2.add(new JLabel("Doctor: "));
 		panel2.add(cajaDoctor);
 		panel3.add(editPaciente);
+		panel3.add(removePaciente);
 		superPanel.add(panel);
 		superPanel.add(panel2);
 		superPanel.add(panel3);

@@ -25,8 +25,8 @@ implement a few ActionListeners and some graphical windows to input text)
 __Links:
 
 
--> Jackson Core 2.7 RC1 to parse Paciente.class  
-http://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+-> GSON from Google to parse GestionPaciente.class  
+https://github.com/google/gson
 
 
 -> JExcelApi to perform a writable xls Excel sheet with all the data

@@ -54,7 +54,6 @@ public class VistaImplementacion implements Vista, Serializable {
 	final String[] vectorTipoIngreso = { "Paliativo", "Oncológico" };
 	int contador = 1;
 
-	// private GestionPaciente modeloGestor;
 	private ControladorImplementacionModelo controladorModelo;
 
 	// Textfields

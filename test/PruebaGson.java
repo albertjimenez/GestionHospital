@@ -26,9 +26,9 @@ public class PruebaGson {
 	public void test() {
 		long t1, t2;
 		t1 = System.nanoTime();
-		System.out.println("Comienza la creacion y adicion de 100.000 pacientes");
+		System.out.println("Comienza la creacion y adicion de 10.000 pacientes");
 		GestionPaciente gestor = new GestionPaciente();
-		for (int i = 0; i < 100000; i++)
+		for (int i = 0; i < 10000; i++)
 			exec.execute(new MiHebraDeadpool(gestor, new Paciente("Santi", "Bernabeuses", i, Calendar.getInstance(),
 					"H", "estado", "pob", "p", 12500, "F")));
 
@@ -49,7 +49,7 @@ public class PruebaGson {
 			GestionPaciente returnedPatient = exportador.fromJson(buf, GestionPaciente.class);
 			t2 = System.nanoTime();
 			double tPar = ((double) (t2 - t1)) / 1.0e9;
-			assertEquals(true, returnedPatient.numeroPacientes() == 100000);
+			assertEquals(true, returnedPatient.numeroPacientes() == 10000);
 			System.out.println("Y el tiempo es: " + tPar);
 
 		} catch (IOException e) {

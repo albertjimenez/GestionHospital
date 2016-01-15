@@ -144,6 +144,7 @@ public class VistaImplementacion implements Vista, Serializable {
 		panel2.add(informacion);
 		JPanel panel3 = new JPanel();
 		JButton botonLicencia = new JButton("Licencia");
+		JButton botonInstrucciones = new JButton("Instrucciones");
 		botonLicencia.addActionListener(new ActionListener() {
 
 			@Override
@@ -164,9 +165,34 @@ public class VistaImplementacion implements Vista, Serializable {
 
 			}
 		});
+		botonInstrucciones.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame v = new JFrame("Instrucciones");
+				String txt = new String();
+				txt = "El funcionamieto es el siguiente:\n Se puede insertar libremente todos los pacientes que se deseen"
+						+ " pero no se puede repetir el paciente.\n"
+						+ "Dos pacientes son iguales sí y solo si tiene el mismo SIP, usado como clave.\n"
+						+ "Si te has equivocado al escribir algún dato, y recuerdas el sip, puedes editarlo en el menú consultar paciente.\n"
+						+ "Si te has equivocado de SIP, debes borrar al paciente de la base de datos.\n"
+						+ "¿Deseas consultar un listado de todos los paciente? Situate en mostras pacientes.\n"
+						+ "IMPORTANTE:Hay una limitación a la hora de extraer la base a excel, no es posible insertar más de 60.000 pacientes.\n"
+						+ "Una orientación del tamaño que puede tener esta base: 100.000 pacientes insertados ocupan 40 MB como unas 10 canciones.";
+
+				JTextArea texto = new JTextArea(txt);
+				texto.setEditable(false);
+				v.getContentPane().add(texto);
+				v.pack();
+				v.setLocationRelativeTo(null);
+				v.setVisible(true);
+
+			}
+		});
 		JPanel panel4Abajo = new JPanel();
 		Container contenedor = ventana.getContentPane();
 		panel3.add(botonLicencia);
+		panel3.add(botonInstrucciones);
 		panel.add(nuevoPaciente);
 		panel.add(consultarPaciente);
 		panel.add(nuevoIngreso);
@@ -309,7 +335,7 @@ public class VistaImplementacion implements Vista, Serializable {
 			public void actionPerformed(ActionEvent e) {
 				file.setDialogTitle("Exportar a Excel");
 				// file.setDialogType(JFileChooser.SAVE_DIALOG);
-				if (!controladorModelo.esMapaVacio()) {
+				if (!controladorModelo.esMapaVacio() && controladorModelo.numeroPacientes() <= 60000) {
 					if (file.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 						try {
 							// String ruta = "/Users/Beruto/Desktop/prueba.xls";
@@ -348,7 +374,8 @@ public class VistaImplementacion implements Vista, Serializable {
 						}
 					}
 				} else
-					JOptionPane.showMessageDialog(null, "No hay datos almacenados");
+					JOptionPane.showMessageDialog(null,
+							"No hay datos almacenados o se ha superado la limitación de 60.000 pacientes.");
 			}
 		});
 

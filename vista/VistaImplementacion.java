@@ -393,10 +393,8 @@ public class VistaImplementacion implements Vista, Serializable {
 			try {
 				unaHoja.addCell(label);
 			} catch (RowsExceededException e) {
-				// Auto-generated catch block
 				e.printStackTrace();
 			} catch (WriteException e) {
-				// Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -413,10 +411,8 @@ public class VistaImplementacion implements Vista, Serializable {
 			try {
 				unaHoja.addCell(nombre);
 			} catch (RowsExceededException e) {
-				// Auto-generated catch block
 				e.printStackTrace();
 			} catch (WriteException e) {
-				// Auto-generated catch block
 				e.printStackTrace();
 			}
 			f++;
@@ -434,10 +430,8 @@ public class VistaImplementacion implements Vista, Serializable {
 			try {
 				unaHoja.addCell(apellido);
 			} catch (RowsExceededException e) {
-				// Auto-generated catch block
 				e.printStackTrace();
 			} catch (WriteException e) {
-				// Auto-generated catch block
 				e.printStackTrace();
 			}
 			f++;

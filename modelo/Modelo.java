@@ -124,7 +124,7 @@ public interface Modelo {
 	 * Busca con nombre y apellido a todos los pacientes de la base de datos
 	 * 
 	 * @param pattern
-	 *            Cadena con nombre y/o apellidos
+	 *            Cadena con nombre y apellidos
 	 * @return Conjunto de pacientes o conjunto vacio.
 	 */
 

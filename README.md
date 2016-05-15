@@ -1,4 +1,4 @@
-# GestionHospital
+# GestionHospital - Obsolete - Migrated to private repo - BitBucket
 Project for the Hospital of Vinaròs, applied lightly MVC, Model is no longer interact with the view. Data Structure prepared for multithread (Not Thread-safe yet and not sure if it's necessary).
 Developed with JAVA SE 8 and Swing framework.
 
